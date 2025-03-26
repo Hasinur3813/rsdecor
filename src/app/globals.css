@@ -1,1 +1,16 @@
 @import "tailwindcss";
+html {
+  font-family: var(--font-inter), sans-serif;
+}
+@theme {
+  --color-primary: #d32f2f;
+  --color-primary-dark: #b71c1c;
+  --color-primary-light: #ff6659;
+  --color-secondary: #c9a227;
+
+  --color-background: #121212;
+  --color-card-bg: #1e1e1e;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b0b0b0;
+}
