@@ -211,7 +211,7 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {FOOTER_LINKS.products.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.label}>
                     <Link
                       href={link.href}
                       className="group inline-flex items-center gap-1.5 text-sm text-white/55 hover:text-primary transition-colors duration-200"

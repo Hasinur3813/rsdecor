@@ -12,45 +12,64 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
-// --- Mega Menu Data (Products dropdown) ---
-export const MEGA_MENU_DATA = {
+// --- Unified Product Categories ---
+// Single source of truth for mega menu, sidebar filters, and footer.
+// `filter` maps directly to the product filter system's URL search params.
+export const PRODUCT_CATEGORIES = {
   wallpapers: {
     title: "Wallpapers",
-    links: [
-      { label: "3D Wallpapers", href: "/products/3d-wallpapers" },
-      { label: "Ceiling Papers", href: "/products/ceiling-papers" },
-      { label: "Kids Room", href: "/products/kids-room" },
-      { label: "Bedroom", href: "/products/bedroom" },
-      { label: "Living Room", href: "/products/living-room" },
-      { label: "Office", href: "/products/office" },
+    items: [
+      { label: "3D Wallpapers", slug: "3d-wallpapers", filter: { category: "3D Wallpaper" } },
+      { label: "Ceiling Papers", slug: "ceiling-papers", filter: { category: "3D Ceiling Paper" } },
+      { label: "Kids Room", slug: "kids-room", filter: { category: "3D Wallpaper", room: "Kids Room" } },
+      { label: "Bedroom", slug: "bedroom", filter: { category: "3D Wallpaper", room: "Bedroom" } },
+      { label: "Living Room", slug: "living-room", filter: { category: "3D Wallpaper", room: "Living Room" } },
+      { label: "Office", slug: "office", filter: { category: "3D Wallpaper", room: "Office" } },
     ],
   },
   flooring: {
     title: "Flooring",
-    links: [
-      { label: "3D Epoxy Floor", href: "/products/3d-epoxy-floor" },
-      { label: "Marble Finish", href: "/products/marble-finish" },
-      { label: "Metallic Finish", href: "/products/metallic-finish" },
+    items: [
+      { label: "3D Epoxy Floor", slug: "3d-epoxy-floor", filter: { category: "3D Epoxy Floor" } },
+      { label: "Marble Finish", slug: "marble-finish", filter: { category: "3D Epoxy Floor", finish: "Matte" } },
+      { label: "Metallic Finish", slug: "metallic-finish", filter: { category: "3D Epoxy Floor", finish: "Metallic" } },
     ],
   },
   featured: {
     title: "Featured",
     label: "New Arrivals",
     description: "Discover our latest premium collection of wallpapers and flooring.",
-    href: "/products?filter=new-arrivals",
     image: "/images/featured-arrivals.jpg",
   },
 };
 
+/**
+ * Build a /products?... URL from a filter object.
+ * Used by mega menu, footer, and anywhere else that links to filtered products.
+ */
+export function buildProductFilterURL(filter) {
+  const params = new URLSearchParams();
+  if (filter.category) params.set("category", filter.category);
+  if (filter.room) params.set("room", filter.room);
+  if (filter.finish) params.set("finish", filter.finish);
+  if (filter.tags) params.set("tags", filter.tags);
+  const query = params.toString();
+  return query ? `/products?${query}` : "/products";
+}
+
 // --- Footer Link Groups ---
 export const FOOTER_LINKS = {
   products: [
-    { label: "3D Wallpapers", href: "/products/3d-wallpapers" },
-    { label: "3D Ceiling Papers", href: "/products/ceiling-papers" },
-    { label: "3D Epoxy Floors", href: "/products/3d-epoxy-floor" },
-    { label: "Kids Room Wallpaper", href: "/products/kids-room" },
-    { label: "Bedroom Wallpaper", href: "/products/bedroom" },
-    { label: "Office Wallpaper", href: "/products/office" },
+    ...PRODUCT_CATEGORIES.wallpapers.items.slice(0, 3).map((item) => ({
+      label: item.label,
+      href: buildProductFilterURL(item.filter),
+    })),
+    ...PRODUCT_CATEGORIES.flooring.items.slice(0, 1).map((item) => ({
+      label: item.label,
+      href: buildProductFilterURL(item.filter),
+    })),
+    { label: "Kids Room Wallpaper", href: buildProductFilterURL({ category: "3D Wallpaper", room: "Kids Room" }) },
+    { label: "Office Wallpaper", href: buildProductFilterURL({ category: "3D Wallpaper", room: "Office" }) },
   ],
   company: [
     { label: "About Us", href: "/about" },
@@ -138,7 +157,7 @@ export const PRODUCT_PLACEHOLDERS = [
   },
 ];
 
-// --- Category List ---
+// --- Homepage(section) Category List ---
 export const CATEGORIES = [
   {
     name: "3D Wallpapers",

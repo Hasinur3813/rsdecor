@@ -45,26 +45,37 @@ const RATING_OPTIONS = [
   { label: "Any Rating", stars: 0 },
 ];
 
+
 function Section({ title, children, defaultOpen = true, action }) {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
     <div className="border-b border-light-muted/60 pb-4 mb-4 last:border-0 last:mb-0 last:pb-0">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-2 mb-3"
-      >
-        <span className="text-sm font-bold text-dark">{title}</span>
-        <span className="flex items-center gap-2">
-          {action}
+      {/* Changed from <button> to <div> */}
+      <div className="w-full flex items-center justify-between gap-2 mb-3">
+        
+        {/* Left side: Clickable title to toggle open/close */}
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          className="flex items-center gap-2 flex-1 text-left"
+        >
+          <span className="text-sm font-bold text-dark">{title}</span>
           {open ? (
             <ChevronUp className="w-4 h-4 text-dark-muted" />
           ) : (
             <ChevronDown className="w-4 h-4 text-dark-muted" />
           )}
-        </span>
-      </button>
+        </button>
+
+        {/* Right side: Independent action slot (Safe for other buttons!) */}
+        {action && (
+          <div className="flex items-center gap-2">
+            {action}
+          </div>
+        )}
+      </div>
+      
       {open && children}
     </div>
   );

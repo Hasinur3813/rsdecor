@@ -15,7 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS, MEGA_MENU_DATA, SOCIAL_LINKS } from "@/lib/constants";
+import { NAV_LINKS, PRODUCT_CATEGORIES, buildProductFilterURL, SOCIAL_LINKS } from "@/lib/constants";
 
 /* ─────────────────────────────────────────
    Inline SVG icons for socials (Lucide doesn't
@@ -63,17 +63,17 @@ const MegaDropdown = ({ isVisible }) => (
       {/* Column 1 — Wallpapers */}
       <div className="pr-6 border-r border-light-muted">
         <h4 className="text-xs font-semibold uppercase tracking-widest text-primary mb-4 font-body">
-          {MEGA_MENU_DATA.wallpapers.title}
+          {PRODUCT_CATEGORIES.wallpapers.title}
         </h4>
         <ul className="space-y-2.5">
-          {MEGA_MENU_DATA.wallpapers.links.map((link) => (
-            <li key={link.href}>
+          {PRODUCT_CATEGORIES.wallpapers.items.map((item) => (
+            <li key={item.slug}>
               <Link
-                href={link.href}
+                href={buildProductFilterURL(item.filter)}
                 className="group flex items-center gap-2 text-sm text-dark-muted hover:text-primary transition-colors duration-200"
               >
                 <span className="w-1 h-1 rounded-full bg-accent group-hover:bg-primary transition-colors duration-200" />
-                {link.label}
+                {item.label}
               </Link>
             </li>
           ))}
@@ -83,17 +83,17 @@ const MegaDropdown = ({ isVisible }) => (
       {/* Column 2 — Flooring */}
       <div className="px-6 border-r border-light-muted">
         <h4 className="text-xs font-semibold uppercase tracking-widest text-primary mb-4 font-body">
-          {MEGA_MENU_DATA.flooring.title}
+          {PRODUCT_CATEGORIES.flooring.title}
         </h4>
         <ul className="space-y-2.5">
-          {MEGA_MENU_DATA.flooring.links.map((link) => (
-            <li key={link.href}>
+          {PRODUCT_CATEGORIES.flooring.items.map((item) => (
+            <li key={item.slug}>
               <Link
-                href={link.href}
+                href={buildProductFilterURL(item.filter)}
                 className="group flex items-center gap-2 text-sm text-dark-muted hover:text-primary transition-colors duration-200"
               >
                 <span className="w-1 h-1 rounded-full bg-accent group-hover:bg-primary transition-colors duration-200" />
-                {link.label}
+                {item.label}
               </Link>
             </li>
           ))}
@@ -103,22 +103,22 @@ const MegaDropdown = ({ isVisible }) => (
       {/* Column 3 — Featured card */}
       <div className="pl-6">
         <h4 className="text-xs font-semibold uppercase tracking-widest text-primary mb-4 font-body">
-          {MEGA_MENU_DATA.featured.title}
+          {PRODUCT_CATEGORIES.featured.title}
         </h4>
         <Link
-          href={MEGA_MENU_DATA.featured.href}
+          href="/products?sort=Newest+First"
           className="group block rounded-lg overflow-hidden bg-light hover:shadow-md transition-shadow duration-200"
         >
           {/* Placeholder image area */}
           <div className="relative h-28 bg-gradient-to-br from-primary/20 via-accent/30 to-secondary/20 flex items-center justify-center">
             <Sparkles className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors duration-200" />
             <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-primary text-white rounded-full">
-              {MEGA_MENU_DATA.featured.label}
+              {PRODUCT_CATEGORIES.featured.label}
             </span>
           </div>
           <div className="p-3">
             <p className="text-xs text-dark-muted leading-relaxed">
-              {MEGA_MENU_DATA.featured.description}
+              {PRODUCT_CATEGORIES.featured.description}
             </p>
             <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-primary group-hover:gap-2 transition-all duration-200">
               Explore <ChevronRight className="w-3 h-3" />
@@ -228,17 +228,17 @@ const MobileDrawer = ({ isOpen, onClose }) => {
                         {/* Wallpapers section */}
                         <div>
                           <p className="text-[10px] font-semibold uppercase tracking-widest text-primary/70 px-3 mb-1.5">
-                            {MEGA_MENU_DATA.wallpapers.title}
+                            {PRODUCT_CATEGORIES.wallpapers.title}
                           </p>
                           <ul className="space-y-0.5">
-                            {MEGA_MENU_DATA.wallpapers.links.map((sub) => (
-                              <li key={sub.href}>
+                            {PRODUCT_CATEGORIES.wallpapers.items.map((item) => (
+                              <li key={item.slug}>
                                 <Link
-                                  href={sub.href}
+                                  href={buildProductFilterURL(item.filter)}
                                   onClick={onClose}
                                   className="block px-3 py-1.5 text-sm text-dark-muted hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
                                 >
-                                  {sub.label}
+                                  {item.label}
                                 </Link>
                               </li>
                             ))}
@@ -248,17 +248,17 @@ const MobileDrawer = ({ isOpen, onClose }) => {
                         {/* Flooring section */}
                         <div>
                           <p className="text-[10px] font-semibold uppercase tracking-widest text-primary/70 px-3 mb-1.5">
-                            {MEGA_MENU_DATA.flooring.title}
+                            {PRODUCT_CATEGORIES.flooring.title}
                           </p>
                           <ul className="space-y-0.5">
-                            {MEGA_MENU_DATA.flooring.links.map((sub) => (
-                              <li key={sub.href}>
+                            {PRODUCT_CATEGORIES.flooring.items.map((item) => (
+                              <li key={item.slug}>
                                 <Link
-                                  href={sub.href}
+                                  href={buildProductFilterURL(item.filter)}
                                   onClick={onClose}
                                   className="block px-3 py-1.5 text-sm text-dark-muted hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
                                 >
-                                  {sub.label}
+                                  {item.label}
                                 </Link>
                               </li>
                             ))}
