@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -9,58 +10,58 @@ const CATEGORIES = [
   {
     name: "3D Wallpapers",
     count: "120+ Designs",
-    gradient: "from-[#C8956C]/80 via-[#D4A87E]/60 to-[#E0CBAE]/40",
-    emoji: "🏠",
+    image: "/categories/wallpaper.jpg",
+    alt: "3D wallpaper interior design",
   },
   {
     name: "3D Ceiling Papers",
     count: "80+ Designs",
-    gradient: "from-[#4A7C6F]/80 via-[#5E9486]/60 to-[#7FB3A3]/40",
-    emoji: "✨",
+    image: "/categories/celingpaper.jpg",
+    alt: "3D ceiling paper installation",
   },
   {
     name: "3D Epoxy Floors",
     count: "60+ Designs",
-    gradient: "from-[#B07A54]/80 via-[#C8956C]/60 to-[#D4B896]/40",
-    emoji: "💎",
+    image: "/categories/floor.jpg",
+    alt: "3D epoxy floor finish",
   },
   {
     name: "Bedroom Designs",
     count: "200+ Designs",
-    gradient: "from-[#8B7B9E]/80 via-[#A596B5]/60 to-[#C4B8D2]/40",
-    emoji: "🛏️",
+    image: "/categories/bedroom.jpg",
+    alt: "Bedroom wallpaper design",
   },
   {
     name: "Kids Room",
     count: "150+ Designs",
-    gradient: "from-[#E8A87C]/80 via-[#F0C4A0]/60 to-[#F5DCC8]/40",
-    emoji: "🧸",
+    image: "/categories/kids.jpg",
+    alt: "Kids room wallpaper design",
   },
   {
     name: "Office & Commercial",
     count: "90+ Designs",
-    gradient: "from-[#3D3D3D]/80 via-[#5A5A5A]/60 to-[#7A7A7A]/40",
-    emoji: "🏢",
+    image: "/categories/office.jpg",
+    alt: "Office and commercial interior design",
   },
 ];
 
 /* ─────────────────────────────────────────
    Category Card
    ───────────────────────────────────────── */
-const CategoryCard = ({ name, count, gradient, emoji }) => (
+const CategoryCard = ({ name, count, image, alt }) => (
   <a
     href="/products"
     className="group relative flex flex-col bg-light rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
   >
-    {/* Image placeholder — gradient with emoji */}
-    <div
-      className={`relative h-48 md:h-56 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden`}
-    >
-      <span className="text-5xl md:text-6xl transition-transform duration-500 group-hover:scale-110">
-        {emoji}
-      </span>
+    <div className="relative h-48 md:h-56 overflow-hidden">
+      <Image
+        src={image}
+        alt={alt}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+      />
 
-      {/* Hover overlay */}
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
     </div>
 

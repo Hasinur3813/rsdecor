@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { ArrowRight, Eye, Award, Users, CheckCircle } from "lucide-react";
@@ -18,31 +19,34 @@ import "swiper/css/pagination";
 const SLIDES = [
   {
     id: 1,
+    image: "/slider-1.jpg",
+    alt: "Premium 3D wallpaper interior design",
     badge: "New Collection",
     heading: "Transform Your Walls Into Art",
     subtext:
       "Discover premium 3D wallpapers that add depth, texture and personality to every room in your home.",
-    gradient: "from-[#B07A54] via-[#C8956C] to-[#D4A87E]",
     cta1: { label: "Explore Products", href: "/products" },
     cta2: { label: "View Portfolio", href: "/gallery" },
   },
   {
     id: 2,
+    image: "/slider-2.jpg",
+    alt: "Luxury 3D ceiling paper installation",
     badge: "Premium Finish",
     heading: "Luxury Ceilings, Redefined",
     subtext:
       "Elevate your interiors with breathtaking 3D ceiling papers. Sophistication meets craftsmanship.",
-    gradient: "from-[#3A6358] via-[#4A7C6F] to-[#5E9486]",
     cta1: { label: "Explore Products", href: "/products" },
     cta2: { label: "View Portfolio", href: "/gallery" },
   },
   {
     id: 3,
+    image: "/slider-3.jpg",
+    alt: "Stunning 3D epoxy floor finish",
     badge: "Lifetime Guarantee",
     heading: "Stunning Epoxy Floors",
     subtext:
       "Durable, glossy and mesmerizing — our 3D epoxy floors turn ordinary spaces into extraordinary experiences.",
-    gradient: "from-[#D4B896] via-[#C8956C] to-[#B07A54]",
     cta1: { label: "Explore Products", href: "/products" },
     cta2: { label: "View Portfolio", href: "/gallery" },
   },
@@ -106,26 +110,19 @@ export default function Hero() {
         className="w-full h-full"
       >
         {SLIDES.map((slide, index) => (
-          <SwiperSlide key={slide.id}>
-            {/* Gradient background */}
-            <div
-              className={cn(
-                "absolute inset-0 bg-gradient-to-br",
-                slide.gradient
-              )}
+          <SwiperSlide key={slide.id} className="relative">
+            {/* Background image */}
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              className="object-cover object-center"
             />
 
-            {/* Decorative pattern overlay */}
-            <div
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                backgroundSize: "32px 32px",
-              }}
-            />
-
-            {/* Dark left-side overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
 
             {/* Slide content */}
             <div className="relative z-10 container h-full flex items-center">

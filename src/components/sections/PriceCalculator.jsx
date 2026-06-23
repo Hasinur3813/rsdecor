@@ -10,11 +10,31 @@ import Button from "@/components/ui/Button";
 /* ─────────────────────────────────────────
    Service types & rates
    ───────────────────────────────────────── */
+const RATES = {
+  wallpaper: 140,
+  ceiling: 140,
+  epoxy: 450,
+};
+
 const SERVICES = [
-  { key: "wallpaper", label: "Wallpaper", rate: 140, icon: Layers },
-  { key: "ceiling", label: "Ceiling Paper", rate: 140, icon: Ruler },
-  { key: "epoxy", label: "Epoxy Floor", rate: 450, icon: Droplets },
+  { key: "wallpaper", label: "Wallpaper", rate: RATES.wallpaper, icon: Layers },
+  { key: "ceiling", label: "Ceiling Paper", rate: RATES.ceiling, icon: Ruler },
+  { key: "epoxy", label: "Epoxy Floor", rate: RATES.epoxy, icon: Droplets },
 ];
+
+const BREAKDOWN_BY_SERVICE = {
+  wallpaper: ["oneWall", "fourWalls", "ceiling", "fullRoom"],
+  ceiling: ["ceiling"],
+  epoxy: ["floor"],
+};
+
+const BREAKDOWN_LABELS = {
+  oneWall: "1 Wall",
+  fourWalls: "All 4 Walls",
+  ceiling: "Ceiling",
+  floor: "Floor",
+  fullRoom: "Full Room Package",
+};
 
 /* ─────────────────────────────────────────
    PriceCalculator Section
@@ -25,25 +45,30 @@ export default function PriceCalculator() {
   const [service, setService] = useState("wallpaper");
   const [calculated, setCalculated] = useState(false);
 
-  const rate = SERVICES.find((s) => s.key === service)?.rate || 140;
-
   const results = useMemo(() => {
     const w = parseFloat(width) || 0;
     const h = parseFloat(height) || 0;
     if (w <= 0 || h <= 0) return null;
 
-    const oneWall = w * h;
-    const fourWalls = 2 * (w * h + w * h); // simplified: 2 pairs of walls
-    const ceiling = w * w; // assuming square room for simplicity, using width
-    const fullRoom = fourWalls + ceiling;
+    const oneWallArea = w * h;
+    const fourWallsArea = 4 * w * h;
+    const ceilingArea = w * w;
+    const floorArea = w * w;
 
     return {
-      oneWall: { area: oneWall, cost: oneWall * rate },
-      fourWalls: { area: fourWalls, cost: fourWalls * rate },
-      ceiling: { area: w * (parseFloat(width) || 0), cost: w * w * rate },
-      fullRoom: { area: fullRoom, cost: fullRoom * rate },
+      oneWall: { area: oneWallArea, cost: oneWallArea * RATES.wallpaper },
+      fourWalls: { area: fourWallsArea, cost: fourWallsArea * RATES.wallpaper },
+      ceiling: { area: ceilingArea, cost: ceilingArea * RATES.ceiling },
+      floor: { area: floorArea, cost: floorArea * RATES.epoxy },
+      fullRoom: {
+        area: fourWallsArea + ceilingArea,
+        cost:
+          fourWallsArea * RATES.wallpaper + ceilingArea * RATES.ceiling,
+      },
     };
-  }, [width, height, rate]);
+  }, [width, height]);
+
+  const visibleBreakdown = BREAKDOWN_BY_SERVICE[service] || [];
 
   const handleCalculate = () => {
     if (parseFloat(width) > 0 && parseFloat(height) > 0) {
@@ -166,60 +191,54 @@ export default function PriceCalculator() {
                     Cost Breakdown
                   </h4>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {/* 1 Wall */}
-                    <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-light-muted">
-                      <div>
-                        <p className="text-xs text-dark-muted">1 Wall</p>
-                        <p className="text-xs text-dark-muted mt-0.5">
-                          {results.oneWall.area} sqft
-                        </p>
-                      </div>
-                      <p className="text-lg font-bold text-primary">
-                        ৳{formatBDT(results.oneWall.cost)}
-                      </p>
-                    </div>
+                  <div
+                    className={cn(
+                      "grid gap-3",
+                      visibleBreakdown.length > 1
+                        ? "grid-cols-1 sm:grid-cols-2"
+                        : "grid-cols-1 max-w-sm mx-auto",
+                    )}
+                  >
+                    {visibleBreakdown.map((key) => {
+                      const item = results[key];
+                      const isFullRoom = key === "fullRoom";
 
-                    {/* All 4 Walls */}
-                    <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-light-muted">
-                      <div>
-                        <p className="text-xs text-dark-muted">All 4 Walls</p>
-                        <p className="text-xs text-dark-muted mt-0.5">
-                          {results.fourWalls.area} sqft
-                        </p>
-                      </div>
-                      <p className="text-lg font-bold text-primary">
-                        ৳{formatBDT(results.fourWalls.cost)}
-                      </p>
-                    </div>
-
-                    {/* Ceiling */}
-                    <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-light-muted">
-                      <div>
-                        <p className="text-xs text-dark-muted">Ceiling</p>
-                        <p className="text-xs text-dark-muted mt-0.5">
-                          {results.ceiling.area} sqft
-                        </p>
-                      </div>
-                      <p className="text-lg font-bold text-primary">
-                        ৳{formatBDT(results.ceiling.cost)}
-                      </p>
-                    </div>
-
-                    {/* Full Room Package */}
-                    <div className="flex items-center justify-between p-4 bg-primary/5 rounded-xl border-2 border-primary/20">
-                      <div>
-                        <p className="text-xs font-semibold text-primary">
-                          Full Room Package
-                        </p>
-                        <p className="text-xs text-dark-muted mt-0.5">
-                          {results.fullRoom.area} sqft
-                        </p>
-                      </div>
-                      <p className="text-xl font-bold text-primary">
-                        ৳{formatBDT(results.fullRoom.cost)}
-                      </p>
-                    </div>
+                      return (
+                        <div
+                          key={key}
+                          className={cn(
+                            "flex items-center justify-between p-4 rounded-xl border",
+                            isFullRoom
+                              ? "bg-primary/5 border-2 border-primary/20"
+                              : "bg-white border-light-muted",
+                          )}
+                        >
+                          <div>
+                            <p
+                              className={cn(
+                                "text-xs",
+                                isFullRoom
+                                  ? "font-semibold text-primary"
+                                  : "text-dark-muted",
+                              )}
+                            >
+                              {BREAKDOWN_LABELS[key]}
+                            </p>
+                            <p className="text-xs text-dark-muted mt-0.5">
+                              {item.area} sqft
+                            </p>
+                          </div>
+                          <p
+                            className={cn(
+                              "font-bold text-primary",
+                              isFullRoom ? "text-xl" : "text-lg",
+                            )}
+                          >
+                            ৳{formatBDT(item.cost)}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <p className="text-[11px] text-dark-muted/60 mt-4 text-center">
