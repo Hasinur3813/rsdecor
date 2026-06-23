@@ -4,7 +4,7 @@
  */
 
 const ITEMS = [
-  "✦ Free Site Visit",
+  "✦ Site Visit — Travelling Cost Only",
   "✦ 10 Year Warranty on Wallpaper",
   "✦ Lifetime Guarantee on Epoxy Floor",
   "✦ Serving All Over Bangladesh",

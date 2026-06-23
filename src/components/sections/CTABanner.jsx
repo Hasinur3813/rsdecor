@@ -46,9 +46,8 @@ export default function CTABanner() {
 
           {/* Subtext */}
           <p className="mt-4 md:mt-5 text-base md:text-lg text-white/70 leading-relaxed max-w-lg mx-auto">
-            Book a <span className="text-white font-semibold">FREE</span> site
-            visit. No commitment, no charge. Our experts will help you choose
-            the perfect design.
+            Book a site visit — only travelling cost applies. Our experts will
+            help you choose the perfect design.
           </p>
 
           {/* CTA Buttons */}

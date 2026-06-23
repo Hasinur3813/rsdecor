@@ -29,8 +29,8 @@ const FEATURES = [
   },
   {
     icon: Home,
-    title: "Free Site Visit",
-    description: "Expert visits before work — no commitment, no charge.",
+    title: "Site Visit Available",
+    description: "Expert visits your location — only travelling cost applies.",
     color: "text-[#E8A87C]",
     bg: "bg-[#E8A87C]/10",
   },
@@ -41,7 +41,7 @@ const FEATURES = [
    ───────────────────────────────────────── */
 const STEPS = [
   { num: "01", title: "Contact", desc: "Reach out via WhatsApp or phone call." },
-  { num: "02", title: "Site Visit", desc: "Our expert visits your location for free." },
+  { num: "02", title: "Site Visit", desc: "Our expert visits your location — only travelling cost applies." },
   { num: "03", title: "Design Selection", desc: "Choose from 6000+ premium designs." },
   { num: "04", title: "Installation", desc: "Professional installation with warranty." },
 ];
