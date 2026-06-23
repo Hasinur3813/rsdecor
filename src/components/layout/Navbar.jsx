@@ -15,7 +15,12 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS, PRODUCT_CATEGORIES, buildProductFilterURL, SOCIAL_LINKS } from "@/lib/constants";
+import {
+  NAV_LINKS,
+  PRODUCT_CATEGORIES,
+  buildProductFilterURL,
+  SOCIAL_LINKS,
+} from "@/lib/constants";
 
 /* ─────────────────────────────────────────
    Inline SVG icons for socials (Lucide doesn't
@@ -52,11 +57,11 @@ const SocialIcon = ({ platform, className = "w-4 h-4" }) => {
 const MegaDropdown = ({ isVisible }) => (
   <div
     className={cn(
-      "absolute top-full left-1/2 -translate-x-1/2 w-[720px] bg-white rounded-xl shadow-xl border border-light-muted",
+      "absolute top-full left-1/2 -translate-x-1/2 w-180 bg-white rounded-xl shadow-xl border border-light-muted",
       "transition-all duration-200 ease-out origin-top",
       isVisible
         ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-        : "opacity-0 scale-[0.97] -translate-y-2 pointer-events-none"
+        : "opacity-0 scale-[0.97] -translate-y-2 pointer-events-none",
     )}
   >
     <div className="grid grid-cols-3 gap-0 p-6">
@@ -158,7 +163,9 @@ const MobileDrawer = ({ isOpen, onClose }) => {
       <div
         className={cn(
           "fixed inset-0 bg-dark/50 backdrop-blur-sm z-40 transition-opacity duration-300",
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none",
         )}
         onClick={onClose}
         aria-hidden="true"
@@ -169,7 +176,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
         className={cn(
           "fixed top-0 left-0 h-full w-[300px] max-w-[85vw] bg-white z-50 flex flex-col",
           "transition-transform duration-300 ease-out shadow-xl",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         {/* Drawer header */}
@@ -203,14 +210,14 @@ const MobileDrawer = ({ isOpen, onClose }) => {
                         "w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                         expandedMenu === "products"
                           ? "bg-primary/10 text-primary"
-                          : "text-dark hover:bg-light-muted"
+                          : "text-dark hover:bg-light-muted",
                       )}
                     >
                       {link.label}
                       <ChevronDown
                         className={cn(
                           "w-4 h-4 transition-transform duration-200",
-                          expandedMenu === "products" && "rotate-180"
+                          expandedMenu === "products" && "rotate-180",
                         )}
                       />
                     </button>
@@ -221,7 +228,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
                         "overflow-hidden transition-all duration-300 ease-out",
                         expandedMenu === "products"
                           ? "max-h-[500px] opacity-100"
-                          : "max-h-0 opacity-0"
+                          : "max-h-0 opacity-0",
                       )}
                     >
                       <div className="pl-4 py-2 space-y-3">
@@ -356,7 +363,9 @@ export default function Navbar() {
         <div className="container flex items-center justify-between h-9 text-xs">
           <p className="flex items-center gap-1.5 truncate">
             <span className="hidden sm:inline">🇧🇩</span>
-            <span className="hidden sm:inline">Serving all over Bangladesh</span>
+            <span className="hidden sm:inline">
+              Serving all over Bangladesh
+            </span>
             <span className="hidden sm:inline text-white/40">|</span>
             <span className="flex items-center gap-1">
               <Phone className="w-3 h-3" />
@@ -379,7 +388,10 @@ export default function Navbar() {
                 className="p-1 text-white/80 hover:text-white transition-colors"
                 aria-label={social.label}
               >
-                <SocialIcon platform={social.platform} className="w-3.5 h-3.5" />
+                <SocialIcon
+                  platform={social.platform}
+                  className="w-3.5 h-3.5"
+                />
               </a>
             ))}
           </div>
@@ -392,7 +404,7 @@ export default function Navbar() {
           "bg-white/95 backdrop-blur-md border-b transition-all duration-300",
           scrolled
             ? "py-2 border-light-muted shadow-md"
-            : "py-3.5 border-transparent shadow-none"
+            : "py-3.5 border-transparent shadow-none",
         )}
       >
         <div className="container flex items-center justify-between gap-4">
@@ -435,7 +447,7 @@ export default function Navbar() {
                     "relative flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
                     "text-dark-muted hover:text-primary hover:bg-primary/5",
                     "after:absolute after:bottom-0.5 after:left-3 after:right-3 after:h-[2px] after:bg-primary",
-                    "after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left"
+                    "after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left",
                   )}
                 >
                   {link.label}
@@ -443,16 +455,14 @@ export default function Navbar() {
                     <ChevronDown
                       className={cn(
                         "w-3.5 h-3.5 transition-transform duration-200",
-                        megaMenuOpen && "rotate-180"
+                        megaMenuOpen && "rotate-180",
                       )}
                     />
                   )}
                 </Link>
 
                 {/* Mega dropdown (only for Products) */}
-                {link.hasMegaMenu && (
-                  <MegaDropdown isVisible={megaMenuOpen} />
-                )}
+                {link.hasMegaMenu && <MegaDropdown isVisible={megaMenuOpen} />}
               </li>
             ))}
           </ul>
@@ -497,10 +507,7 @@ export default function Navbar() {
       </nav>
 
       {/* ── MOBILE DRAWER ── */}
-      <MobileDrawer
-        isOpen={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-      />
+      <MobileDrawer isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );
 }
