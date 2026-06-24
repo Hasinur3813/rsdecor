@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MOCK_PRODUCTS as productsData } from "@/lib/productsData";
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromWishlist, clearWishlist, removeSelectedFromWishlist } from "@/store/slices/wishlistSlice";
 import WishlistEmpty from "./WishlistEmpty";
 import WishlistToolbar from "./WishlistToolbar";
 import WishlistGrid from "./WishlistGrid";
@@ -10,29 +12,13 @@ import WishlistShareModal from "./WishlistShareModal";
 import CostCalculatorModal from "./CostCalculatorModal";
 
 export default function WishlistClient() {
-  const [wishlistIds, setWishlistIds] = useState([]);
+  const dispatch = useDispatch();
+  const wishlistIds = useSelector((state) => state.wishlist.items);
   const [sortBy, setSortBy] = useState("Date Added");
   const [filterCategory, setFilterCategory] = useState("All");
   const [selectedIds, setSelectedIds] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCalculatorModal, setShowCalculatorModal] = useState(false);
-
-  // Load wishlist from localStorage
-  useEffect(() => {
-    const loadWishlist = () => {
-      const saved = localStorage.getItem("rs_wishlist");
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          // Use setTimeout to avoid sync setState in effect
-          setTimeout(() => setWishlistIds(parsed), 0);
-        } catch (e) {
-          console.error("Failed to load wishlist:", e);
-        }
-      }
-    };
-    loadWishlist();
-  }, []);
 
   // Derived state
   const wishlistProducts = productsData.filter((p) =>
@@ -58,26 +44,18 @@ export default function WishlistClient() {
     });
 
   const removeItem = (id) => {
-    const updated = wishlistIds.filter((wid) => wid !== id);
-    setWishlistIds(updated);
-    localStorage.setItem("rs_wishlist", JSON.stringify(updated));
+    dispatch(removeFromWishlist(id));
     setSelectedIds((prev) => prev.filter((x) => x !== id));
-    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   const clearAll = () => {
-    setWishlistIds([]);
+    dispatch(clearWishlist());
     setSelectedIds([]);
-    localStorage.removeItem("rs_wishlist");
-    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   const removeSelected = () => {
-    const updated = wishlistIds.filter((id) => !selectedIds.includes(id));
-    setWishlistIds(updated);
-    localStorage.setItem("rs_wishlist", JSON.stringify(updated));
+    dispatch(removeSelectedFromWishlist(selectedIds));
     setSelectedIds([]);
-    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   // Update removeSelected function

@@ -23,36 +23,8 @@ import {
   SOCIAL_LINKS,
 } from "@/lib/constants";
 import { MOCK_PRODUCTS } from "@/lib/productsData";
+import { useSelector } from "react-redux";
 import Portal from "./Portal";
-
-// Hook to get wishlist count and listen for changes
-const useWishlistCount = () => {
-  const [count, setCount] = useState(0);
-
-  const updateCount = useCallback(() => {
-    const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
-    setTimeout(() => setCount(wishlist.length), 0);
-  }, []);
-
-  useEffect(() => {
-    updateCount();
-
-    // Listen for storage events (for cross-tab updates)
-    const handleStorageChange = () => updateCount();
-    window.addEventListener("storage", handleStorageChange);
-
-    // Listen for custom event for same-tab updates
-    const handleWishlistChange = () => updateCount();
-    window.addEventListener("wishlistChanged", handleWishlistChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("wishlistChanged", handleWishlistChange);
-    };
-  }, [updateCount]);
-
-  return count;
-};
 
 /* ─────────────────────────────────────────
    Inline SVG icons for socials (Lucide doesn't
@@ -150,7 +122,7 @@ const MegaDropdown = ({ isVisible, onClose }) => (
           className="group block rounded-lg overflow-hidden bg-light hover:shadow-md transition-shadow duration-200"
         >
           {/* Placeholder image area */}
-          <div className="relative h-28 bg-gradient-to-br from-primary/20 via-accent/30 to-secondary/20 flex items-center justify-center">
+          <div className="relative h-28 bg-linear-to-br from-primary/20 via-accent/30 to-secondary/20 flex items-center justify-center">
             <Sparkles className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors duration-200" />
             <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-primary text-white rounded-full">
               {PRODUCT_CATEGORIES.featured.label}
@@ -262,7 +234,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
                       className={cn(
                         "overflow-hidden transition-all duration-300 ease-out",
                         expandedMenu === "products"
-                          ? "max-h-[500px] opacity-100"
+                          ? "max-h-125 opacity-100"
                           : "max-h-0 opacity-0",
                       )}
                     >
@@ -369,11 +341,18 @@ export default function Navbar() {
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [mounted, setMounted] = useState(false);
   const searchInputRef = useRef(null);
   const searchButtonRef = useRef(null);
   const searchPopupRef = useRef(null);
   const megaMenuTimeout = useRef(null);
-  const wishlistCount = useWishlistCount();
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
+  const cartCount = useSelector((state) => state.cart.items.length);
+
+  useEffect(() => {
+    // Safe one-time initialization to avoid hydration mismatches
+    setTimeout(() => setMounted(true), 0);
+  }, []);
 
   // ── Search: derived state ──
   const searchResults =
@@ -547,7 +526,7 @@ export default function Navbar() {
                   className={cn(
                     "relative flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
                     "text-dark-muted hover:text-primary hover:bg-primary/5",
-                    "after:absolute after:bottom-0.5 after:left-3 after:right-3 after:h-[2px] after:bg-primary",
+                    "after:absolute after:bottom-0.5 after:left-3 after:right-3 after:h-0.5 after:bg-primary",
                     "after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:origin-left",
                   )}
                 >
@@ -591,7 +570,7 @@ export default function Navbar() {
                 <Portal>
                   <div
                     ref={searchPopupRef}
-                    className="fixed top-20 right-4 sm:right-8 md:right-12 w-[calc(100vw-32px)] sm:w-112.5 md:w-137.5 bg-white rounded-2xl shadow-2xl border border-light-muted p-4 z-[9999] animate-in fade-in zoom-in-95 duration-200"
+                    className="fixed top-20 right-4 sm:right-8 md:right-12 w-[calc(100vw-32px)] sm:w-112.5 md:w-137.5 bg-white rounded-2xl shadow-2xl border border-light-muted p-4 z-9999 animate-in fade-in zoom-in-95 duration-200"
                   >
                     <div className="flex items-center gap-3">
                       <Search className="w-5 h-5 text-dark-muted" />
@@ -682,23 +661,26 @@ export default function Navbar() {
             >
               <Heart className="w-5 h-5" />
               {/* Item badge */}
-              {wishlistCount > 0 && (
+              {mounted && wishlistCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-primary rounded-full ring-2 ring-white">
                   {wishlistCount}
                 </span>
               )}
             </Link>
 
-            <button
+            <Link
+              href="/cart"
               className="relative p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"
               aria-label="Cart"
             >
               <ShoppingCart className="w-5 h-5" />
               {/* Item badge */}
-              <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-primary rounded-full ring-2 ring-white">
-                0
-              </span>
-            </button>
+              {mounted && cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-primary rounded-full ring-2 ring-white">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
 
             {/* CTA Button — desktop */}
             <Link

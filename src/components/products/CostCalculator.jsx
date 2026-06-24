@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingCart, Info } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ShoppingCart, Info, CheckCircle2 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/slices/cartSlice";
 
 export default function CostCalculator({ product }) {
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [unit, setUnit] = useState("ft"); // 'ft' or 'in'
   const [numWalls, setNumWalls] = useState(1);
+  const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const isEpoxy = product.category === "3D Epoxy Floor";
 
@@ -35,6 +41,35 @@ export default function CostCalculator({ product }) {
   const area = calculateArea();
   const totalPrice = area * product.pricePerSqft;
   const minOrderSize = 100; // Minimum 100 sq ft order
+
+  const handleAddToCart = () => {
+    const cartItem = {
+      cartId: `${product.id}-${Date.now()}`,
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      category: product.category,
+      pricePerSqft: product.pricePerSqft,
+      warranty: product.warranty,
+      finish: product.finish,
+      roomType: product.roomType,
+      gradientFrom: product.gradientFrom,
+      gradientTo: product.gradientTo,
+      width: parseFloat(width),
+      height: parseFloat(height),
+      unit,
+      numWalls: isEpoxy ? 1 : numWalls,
+      area: parseFloat(area.toFixed(2)),
+      totalPrice: parseFloat(totalPrice.toFixed(2)),
+      addedAt: new Date().toISOString(),
+    };
+    dispatch(addToCart(cartItem));
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+      router.push("/cart");
+    }, 1500);
+  };
 
   return (
     <div className="bg-white rounded-2xl p-5 border border-light-muted shadow-sm">
@@ -162,11 +197,12 @@ export default function CostCalculator({ product }) {
 
       {/* Add to Cart button */}
       <button
+        onClick={handleAddToCart}
         disabled={!width || !height || area < minOrderSize}
         className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold text-lg hover:bg-primary-dark transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <ShoppingCart className="w-5 h-5" />
-        Add to Cart
+        {showToast ? <CheckCircle2 className="w-5 h-5" /> : <ShoppingCart className="w-5 h-5" />}
+        {showToast ? "Added to Cart!" : "Add to Cart"}
       </button>
 
       {/* Reset button */}

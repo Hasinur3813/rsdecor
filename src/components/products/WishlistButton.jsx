@@ -1,33 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Heart } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/store/slices/wishlistSlice";
 
 export default function WishlistButton({ product }) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const isWishlisted = wishlistItems.includes(product.id);
   const [showToast, setShowToast] = useState("");
 
-  useEffect(() => {
-    const checkWishlist = () => {
-      const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
-      setTimeout(() => setIsWishlisted(wishlist.includes(product.id)), 0);
-    };
-    checkWishlist();
-  }, [product.id]);
-
   const toggleWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
     if (isWishlisted) {
-      wishlist = wishlist.filter((id) => id !== product.id);
+      dispatch(removeFromWishlist(product.id));
       setShowToast("Removed from Wishlist");
     } else {
-      wishlist.push(product.id);
+      dispatch(addToWishlist(product.id));
       setShowToast("Added to Wishlist ❤️");
     }
-    localStorage.setItem("rs_wishlist", JSON.stringify(wishlist));
-    setIsWishlisted(!isWishlisted);
     setTimeout(() => setShowToast(""), 2000);
-    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   return (
