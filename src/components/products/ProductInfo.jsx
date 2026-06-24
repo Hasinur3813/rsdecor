@@ -119,7 +119,7 @@ export default function ProductInfo({ product }) {
       <ul className="space-y-2">
         {features.map((feature, index) => (
           <li key={index} className="flex items-center gap-2">
-            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-secondary flex-shrink-0" />
+            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-secondary shrink-0" />
             <span className="text-dark text-sm sm:text-base">{feature}</span>
           </li>
         ))}
@@ -146,11 +146,11 @@ export default function ProductInfo({ product }) {
       {/* Notes */}
       <div className="flex flex-wrap items-center gap-4 pt-2">
         <div className="flex items-center gap-2 text-dark-muted">
-          <Truck className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
-          <span className="text-sm sm:text-base">Free site visit</span>
+          <Truck className="w-4 sm:w-5 h-4 sm:h-5 shrink-0" />
+          <span className="text-sm sm:text-base">Site visit</span>
         </div>
         <div className="flex items-center gap-2 text-dark-muted">
-          <Clock className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
+          <Clock className="w-4 sm:w-5 h-4 sm:h-5 shrink-0" />
           <span className="text-sm sm:text-base">Install in 3–4 days</span>
         </div>
       </div>

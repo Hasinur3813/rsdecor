@@ -6,7 +6,7 @@
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products", hasMegaMenu: true },
-  { label: "Gallery", href: "/gallery" },
+  // { label: "Gallery", href: "/gallery" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -19,26 +19,63 @@ export const PRODUCT_CATEGORIES = {
   wallpapers: {
     title: "Wallpapers",
     items: [
-      { label: "3D Wallpapers", slug: "3d-wallpapers", filter: { category: "3D Wallpaper" } },
-      { label: "Ceiling Papers", slug: "ceiling-papers", filter: { category: "3D Ceiling Paper" } },
-      { label: "Kids Room", slug: "kids-room", filter: { category: "3D Wallpaper", room: "Kids Room" } },
-      { label: "Bedroom", slug: "bedroom", filter: { category: "3D Wallpaper", room: "Bedroom" } },
-      { label: "Living Room", slug: "living-room", filter: { category: "3D Wallpaper", room: "Living Room" } },
-      { label: "Office", slug: "office", filter: { category: "3D Wallpaper", room: "Office" } },
+      {
+        label: "3D Wallpapers",
+        slug: "3d-wallpapers",
+        filter: { category: "3D Wallpaper" },
+      },
+      {
+        label: "Ceiling Papers",
+        slug: "ceiling-papers",
+        filter: { category: "3D Ceiling Paper" },
+      },
+      {
+        label: "Kids Room",
+        slug: "kids-room",
+        filter: { category: "3D Wallpaper", room: "Kids Room" },
+      },
+      {
+        label: "Bedroom",
+        slug: "bedroom",
+        filter: { category: "3D Wallpaper", room: "Bedroom" },
+      },
+      {
+        label: "Living Room",
+        slug: "living-room",
+        filter: { category: "3D Wallpaper", room: "Living Room" },
+      },
+      {
+        label: "Office",
+        slug: "office",
+        filter: { category: "3D Wallpaper", room: "Office" },
+      },
     ],
   },
   flooring: {
     title: "Flooring",
     items: [
-      { label: "3D Epoxy Floor", slug: "3d-epoxy-floor", filter: { category: "3D Epoxy Floor" } },
-      { label: "Marble Finish", slug: "marble-finish", filter: { category: "3D Epoxy Floor", finish: "Matte" } },
-      { label: "Metallic Finish", slug: "metallic-finish", filter: { category: "3D Epoxy Floor", finish: "Metallic" } },
+      {
+        label: "3D Epoxy Floor",
+        slug: "3d-epoxy-floor",
+        filter: { category: "3D Epoxy Floor" },
+      },
+      {
+        label: "Marble Finish",
+        slug: "marble-finish",
+        filter: { category: "3D Epoxy Floor", finish: "Matte" },
+      },
+      {
+        label: "Metallic Finish",
+        slug: "metallic-finish",
+        filter: { category: "3D Epoxy Floor", finish: "Metallic" },
+      },
     ],
   },
   featured: {
     title: "Featured",
     label: "New Arrivals",
-    description: "Discover our latest premium collection of wallpapers and flooring.",
+    description:
+      "Discover our latest premium collection of wallpapers and flooring.",
     image: "/images/featured-arrivals.jpg",
   },
 };
@@ -68,8 +105,17 @@ export const FOOTER_LINKS = {
       label: item.label,
       href: buildProductFilterURL(item.filter),
     })),
-    { label: "Kids Room Wallpaper", href: buildProductFilterURL({ category: "3D Wallpaper", room: "Kids Room" }) },
-    { label: "Office Wallpaper", href: buildProductFilterURL({ category: "3D Wallpaper", room: "Office" }) },
+    {
+      label: "Kids Room Wallpaper",
+      href: buildProductFilterURL({
+        category: "3D Wallpaper",
+        room: "Kids Room",
+      }),
+    },
+    {
+      label: "Office Wallpaper",
+      href: buildProductFilterURL({ category: "3D Wallpaper", room: "Office" }),
+    },
   ],
   company: [
     { label: "About Us", href: "/about" },
@@ -88,9 +134,21 @@ export const FOOTER_LINKS = {
 
 // --- Social Links ---
 export const SOCIAL_LINKS = [
-  { platform: "facebook", href: "https://facebook.com/rsdecor", label: "Facebook" },
-  { platform: "youtube", href: "https://youtube.com/@rsdecor", label: "YouTube" },
-  { platform: "whatsapp", href: "https://wa.me/8801772132818", label: "WhatsApp" },
+  {
+    platform: "facebook",
+    href: "https://facebook.com/rsdecor",
+    label: "Facebook",
+  },
+  {
+    platform: "youtube",
+    href: "https://youtube.com/@rsdecor",
+    label: "YouTube",
+  },
+  {
+    platform: "whatsapp",
+    href: "https://wa.me/8801772132818",
+    label: "WhatsApp",
+  },
 ];
 
 // --- Product Placeholders ---
@@ -190,7 +248,8 @@ export const SITE_INFO = {
   name: "RS 3D Wallpaper & Floor",
   shortName: "RS Wallpaper",
   owner: "Md. Rasel Khandaker",
-  tagline: "Premium 3D wallpapers, ceiling papers & epoxy floors for beautiful Bangladeshi homes.",
+  tagline:
+    "Premium 3D wallpapers, ceiling papers & epoxy floors for beautiful Bangladeshi homes.",
   phones: ["01772-132818", "01976-600300"],
   whatsapp: "01772-132818",
   email: "info@rswallfloor.com",

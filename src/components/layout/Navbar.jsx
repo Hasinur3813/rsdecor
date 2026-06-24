@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Layers,
   Search,
@@ -21,6 +22,8 @@ import {
   buildProductFilterURL,
   SOCIAL_LINKS,
 } from "@/lib/constants";
+import { MOCK_PRODUCTS } from "@/lib/productsData";
+import Portal from "./Portal";
 
 /* ─────────────────────────────────────────
    Inline SVG icons for socials (Lucide doesn't
@@ -54,7 +57,7 @@ const SocialIcon = ({ platform, className = "w-4 h-4" }) => {
 /* ─────────────────────────────────────────
    MEGA DROPDOWN (Desktop)
    ───────────────────────────────────────── */
-const MegaDropdown = ({ isVisible }) => (
+const MegaDropdown = ({ isVisible, onClose }) => (
   <div
     className={cn(
       "absolute top-full left-1/2 -translate-x-1/2 w-180 bg-white rounded-xl shadow-xl border border-light-muted",
@@ -75,6 +78,7 @@ const MegaDropdown = ({ isVisible }) => (
             <li key={item.slug}>
               <Link
                 href={buildProductFilterURL(item.filter)}
+                onClick={onClose}
                 className="group flex items-center gap-2 text-sm text-dark-muted hover:text-primary transition-colors duration-200"
               >
                 <span className="w-1 h-1 rounded-full bg-accent group-hover:bg-primary transition-colors duration-200" />
@@ -95,6 +99,7 @@ const MegaDropdown = ({ isVisible }) => (
             <li key={item.slug}>
               <Link
                 href={buildProductFilterURL(item.filter)}
+                onClick={onClose}
                 className="group flex items-center gap-2 text-sm text-dark-muted hover:text-primary transition-colors duration-200"
               >
                 <span className="w-1 h-1 rounded-full bg-accent group-hover:bg-primary transition-colors duration-200" />
@@ -112,6 +117,7 @@ const MegaDropdown = ({ isVisible }) => (
         </h4>
         <Link
           href="/products?sort=Newest+First"
+          onClick={onClose}
           className="group block rounded-lg overflow-hidden bg-light hover:shadow-md transition-shadow duration-200"
         >
           {/* Placeholder image area */}
@@ -332,7 +338,27 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef(null);
+  const searchButtonRef = useRef(null);
+  const searchPopupRef = useRef(null);
   const megaMenuTimeout = useRef(null);
+
+  // ── Search: derived state ──
+  const searchResults =
+    searchQuery.trim() === ""
+      ? []
+      : MOCK_PRODUCTS.filter(
+          (product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.category
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            product.tags.some((tag) =>
+              tag.toLowerCase().includes(searchQuery.toLowerCase()),
+            ),
+        );
 
   // ── Scroll listener ──
   useEffect(() => {
@@ -344,7 +370,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ── Mega menu hover with delay (prevents flicker) ──
+  // ── Mega menu functions ──
   const openMegaMenu = useCallback(() => {
     clearTimeout(megaMenuTimeout.current);
     setMegaMenuOpen(true);
@@ -355,6 +381,50 @@ export default function Navbar() {
       setMegaMenuOpen(false);
     }, 150);
   }, []);
+
+  const closeMegaMenuImmediately = useCallback(() => {
+    clearTimeout(megaMenuTimeout.current);
+    setMegaMenuOpen(false);
+  }, []);
+
+  // Focus input when search opens
+  useEffect(() => {
+    if (searchOpen && searchInputRef.current) {
+      // Wait a tick before focusing (for portal rendering)
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+    }
+  }, [searchOpen]);
+
+  // Close search when clicking outside or pressing ESC
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!searchOpen) return;
+      const isClickInsideButton = searchButtonRef.current?.contains(
+        event.target,
+      );
+      const isClickInsidePopup = searchPopupRef.current?.contains(event.target);
+      if (!isClickInsideButton && !isClickInsidePopup) {
+        setSearchOpen(false);
+        setSearchQuery("");
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (searchOpen && event.key === "Escape") {
+        setSearchOpen(false);
+        setSearchQuery("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [searchOpen]);
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -371,10 +441,10 @@ export default function Navbar() {
               <Phone className="w-3 h-3" />
               <span>WhatsApp:</span>
               <a
-                href="https://wa.me/8801772132818"
+                href="https://wa.me/+8801976600300"
                 className="font-semibold hover:underline"
               >
-                01772-132818
+                01976-600300
               </a>
             </span>
           </p>
@@ -443,6 +513,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
+                  onClick={closeMegaMenuImmediately}
                   className={cn(
                     "relative flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
                     "text-dark-muted hover:text-primary hover:bg-primary/5",
@@ -462,19 +533,117 @@ export default function Navbar() {
                 </Link>
 
                 {/* Mega dropdown (only for Products) */}
-                {link.hasMegaMenu && <MegaDropdown isVisible={megaMenuOpen} />}
+                {link.hasMegaMenu && (
+                  <MegaDropdown
+                    isVisible={megaMenuOpen}
+                    onClose={closeMegaMenuImmediately}
+                  />
+                )}
               </li>
             ))}
           </ul>
 
           {/* Right: icons + CTA */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <button
-              className="p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5" />
-            </button>
+            {/* Search */}
+            <div className="relative">
+              <button
+                ref={searchButtonRef}
+                onClick={() => setSearchOpen(true)}
+                className="p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"
+                aria-label="Search"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* Search Popup in Portal */}
+              {searchOpen && (
+                <Portal>
+                  <div
+                    ref={searchPopupRef}
+                    className="fixed top-20 right-4 sm:right-8 md:right-12 w-[calc(100vw-32px)] sm:w-112.5 md:w-137.5 bg-white rounded-2xl shadow-2xl border border-light-muted p-4 z-[9999] animate-in fade-in zoom-in-95 duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Search className="w-5 h-5 text-dark-muted" />
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        placeholder="Search for wallpapers, epoxy floors, etc..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="flex-1 bg-transparent text-base text-dark outline-none placeholder:text-dark-muted/50"
+                      />
+                      <button
+                        onClick={() => {
+                          setSearchOpen(false);
+                          setSearchQuery("");
+                        }}
+                        className="group relative flex items-center gap-2 p-2 rounded-xl text-dark-muted hover:text-white hover:bg-red-500 transition-all"
+                        aria-label="Close search"
+                      >
+                        <X className="w-6 h-6 transition-transform duration-200 group-hover:rotate-90" />
+                        <span className="hidden sm:inline text-sm font-semibold">
+                          Close
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Search results */}
+                    {searchQuery.trim() !== "" && (
+                      <div className="mt-4 max-h-[55vh] overflow-y-auto border-t border-light-muted pt-4">
+                        {searchResults.length > 0 ? (
+                          <ul className="space-y-2">
+                            {searchResults.map((product) => (
+                              <li key={product.id}>
+                                <Link
+                                  href={`/products/${product.slug}`}
+                                  onClick={() => {
+                                    setSearchOpen(false);
+                                    setSearchQuery("");
+                                  }}
+                                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-light-muted transition-colors"
+                                >
+                                  <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0">
+                                    <Image
+                                      src={product.image}
+                                      alt={product.imageAlt}
+                                      fill
+                                      sizes="56px"
+                                      className="object-cover"
+                                    />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-base font-medium text-dark truncate">
+                                      {product.name}
+                                    </p>
+                                    <p className="text-sm text-dark-muted flex items-center gap-2">
+                                      <span className="text-primary font-semibold">
+                                        ৳{product.pricePerSqft}/sqft
+                                      </span>
+                                      •
+                                      <span className="truncate">
+                                        {product.category}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center py-10 gap-3">
+                            <Search className="w-10 h-10 text-dark-muted/30" />
+                            <p className="text-sm text-dark-muted">
+                              No products found for &quot;{searchQuery}&quot;
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </Portal>
+              )}
+            </div>
 
             <button
               className="hidden sm:flex p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"

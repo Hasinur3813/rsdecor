@@ -59,8 +59,7 @@ function ProductImage({ product, className }) {
 }
 
 export default function ProductCard({ product, viewMode = "grid" }) {
-  const warrantyShort =
-    product.warranty === "Lifetime" ? "Lifetime" : "10yr";
+  const warrantyShort = product.warranty === "Lifetime" ? "Lifetime" : "10yr";
 
   if (viewMode === "list") {
     return (
@@ -68,7 +67,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         <div className="flex flex-col sm:flex-row">
           <ProductImage
             product={product}
-            className="w-full sm:w-48 shrink-0 aspect-[4/3] sm:aspect-auto sm:min-h-[180px]"
+            className="w-full sm:w-48 shrink-0 aspect-4/3 sm:aspect-auto sm:min-h-45"
           />
 
           <div className="flex-1 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -80,20 +79,20 @@ export default function ProductCard({ product, viewMode = "grid" }) {
                 <MapPin className="w-3 h-3" />
                 {product.roomType}
               </p>
-              <div className="mt-2">
+              {/* <div className="mt-2">
                 <StarRating
                   rating={product.rating}
                   reviewCount={product.reviewCount}
                 />
-              </div>
-              <div className="flex flex-wrap items-center gap-2 mt-3">
+              </div> */}
+              {/* <div className="flex flex-wrap items-center gap-2 mt-3">
                 <span className="px-2 py-0.5 rounded-full bg-gray-100 text-[10px] font-medium text-dark-muted">
                   {product.finish}
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-secondary/10 text-[10px] font-semibold text-secondary">
                   {warrantyShort}
                 </span>
-              </div>
+              </div> */}
               <p className="text-lg font-bold text-primary mt-3">
                 ৳{product.pricePerSqft}
                 <span className="text-sm font-normal text-dark-muted">
@@ -125,7 +124,7 @@ export default function ProductCard({ product, viewMode = "grid" }) {
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm border border-light-muted/50 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-      <ProductImage product={product} className="aspect-[4/3]" />
+      <ProductImage product={product} className="aspect-4/3" />
 
       <div className="p-4">
         <h3 className="text-sm font-heading font-bold text-dark group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem]">
@@ -137,23 +136,25 @@ export default function ProductCard({ product, viewMode = "grid" }) {
           {product.roomType}
         </p>
 
-        <div className="mt-2">
-          <StarRating rating={product.rating} reviewCount={product.reviewCount} />
-        </div>
+        {/* <div className="mt-2">
+          <StarRating
+            rating={product.rating}
+            reviewCount={product.reviewCount}
+          />
+        </div> */}
 
         <div className="flex items-center justify-between mt-3">
           <p className="text-lg font-bold text-primary">
             ৳{product.pricePerSqft}
             <span className="text-xs font-normal text-dark-muted">/sqft</span>
           </p>
-          <span className="px-2 py-0.5 rounded-full bg-secondary/10 text-[10px] font-semibold text-secondary">
-            {warrantyShort}
+          <span className="inline-block mt-2 px-2 py-0.5 rounded-full bg-gray-100 text-[10px] font-medium text-dark-muted">
+            {product.finish}
           </span>
+          {/* <span className="px-2 py-0.5 rounded-full bg-secondary/10 text-[10px] font-semibold text-secondary">
+            {warrantyShort}
+          </span> */}
         </div>
-
-        <span className="inline-block mt-2 px-2 py-0.5 rounded-full bg-gray-100 text-[10px] font-medium text-dark-muted">
-          {product.finish}
-        </span>
 
         <div className="flex gap-2 mt-4">
           <Link

@@ -32,11 +32,7 @@ const COLOR_SWATCHES = [
   { label: "Light", color: "#FAF7F2", border: true },
 ];
 
-const WARRANTY_OPTIONS = [
-  "Any Warranty",
-  "10 Years",
-  "Lifetime",
-];
+const WARRANTY_OPTIONS = ["Any Warranty", "10 Years", "Lifetime"];
 
 const RATING_OPTIONS = [
   { label: "5.0 only", stars: 5 },
@@ -45,7 +41,6 @@ const RATING_OPTIONS = [
   { label: "Any Rating", stars: 0 },
 ];
 
-
 function Section({ title, children, defaultOpen = true, action }) {
   const [open, setOpen] = useState(defaultOpen);
 
@@ -53,7 +48,6 @@ function Section({ title, children, defaultOpen = true, action }) {
     <div className="border-b border-light-muted/60 pb-4 mb-4 last:border-0 last:mb-0 last:pb-0">
       {/* Changed from <button> to <div> */}
       <div className="w-full flex items-center justify-between gap-2 mb-3">
-        
         {/* Left side: Clickable title to toggle open/close */}
         <button
           type="button"
@@ -69,13 +63,9 @@ function Section({ title, children, defaultOpen = true, action }) {
         </button>
 
         {/* Right side: Independent action slot (Safe for other buttons!) */}
-        {action && (
-          <div className="flex items-center gap-2">
-            {action}
-          </div>
-        )}
+        {action && <div className="flex items-center gap-2">{action}</div>}
       </div>
-      
+
       {open && children}
     </div>
   );
@@ -157,6 +147,7 @@ export default function FilterPanelContent({
   const [searchInput, setSearchInput] = useState(filters.q || "");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearchInput(filters.q || "");
   }, [filters.q]);
 
@@ -264,7 +255,7 @@ export default function FilterPanelContent({
         </div>
       </Section>
 
-      <Section title="Price Range">
+      {/* <Section title="Price Range">
         <div className="flex flex-wrap gap-2 mb-3">
           {["All Prices", "৳140/sqft", "৳450/sqft"].map((preset) => (
             <button
@@ -315,7 +306,7 @@ export default function FilterPanelContent({
           />
         </div>
         <p className="text-[11px] text-dark-muted mt-2">Per square foot</p>
-      </Section>
+      </Section> */}
 
       <Section
         title="Finish / Texture"
@@ -365,13 +356,15 @@ export default function FilterPanelContent({
                 )}
                 style={{ backgroundColor: swatch.color }}
               />
-              <span className="text-[10px] text-dark-muted">{swatch.label}</span>
+              <span className="text-[10px] text-dark-muted">
+                {swatch.label}
+              </span>
             </button>
           ))}
         </div>
       </Section>
 
-      <Section title="Warranty">
+      {/* <Section title="Warranty">
         <div className="space-y-1">
           {WARRANTY_OPTIONS.map((option) => (
             <RadioItem
@@ -388,7 +381,7 @@ export default function FilterPanelContent({
             />
           ))}
         </div>
-      </Section>
+      </Section> */}
 
       <Section title="Popular Tags">
         <div className="flex flex-wrap gap-2">
@@ -410,7 +403,7 @@ export default function FilterPanelContent({
         </div>
       </Section>
 
-      <Section title="Minimum Rating">
+      {/* <Section title="Minimum Rating">
         <div className="space-y-1">
           {RATING_OPTIONS.map((option) => (
             <button
@@ -433,7 +426,7 @@ export default function FilterPanelContent({
             </button>
           ))}
         </div>
-      </Section>
+      </Section> */}
 
       {activeCount > 0 && onReset && (
         <button

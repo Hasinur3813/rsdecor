@@ -1,7 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useState } from "react";
 import ReviewsTab from "./ReviewsTab";
+import { Check } from "lucide-react";
 
 export default function ProductTabs({ product }) {
   const [activeTab, setActiveTab] = useState("description");
@@ -9,6 +11,56 @@ export default function ProductTabs({ product }) {
   const isEpoxy = product.category === "3D Epoxy Floor";
   const isWallpaper = product.category === "3D Wallpaper";
   const isCeiling = product.category === "3D Ceiling Paper";
+
+  const materialInfo = isEpoxy
+    ? [
+        {
+          title: "Premium Epoxy Resin",
+          description: "High-grade, industrial-strength epoxy resin formula",
+          features: [
+            "2x Stronger than traditional tiles",
+            "Seamless, joint-free finish",
+            "Impact and scratch resistant",
+            "Waterproof and stain proof",
+          ],
+        },
+      ]
+    : [
+        {
+          title: "#1 Non-Woven Wallpaper (Glue Required)",
+          description: "High-quality Non-Woven silk/smooth finish Wallpaper",
+          features: [
+            "Semi-Matt traditional wallpaper is a paper-based material",
+            "Thickness 295 micron",
+            "Easy for use and application",
+            "Environment friendly Ink we used you can fix on this kids rooms also",
+            "Apply can Smooth and textured Walls applicable with glue",
+            "8-10 Years Lifespan",
+          ],
+        },
+        {
+          title: "#2 Canvas Texture Wallpaper (Glue Required)",
+          description: "Semi-matt fabric with a canvas structure",
+          features: [
+            "Thickness 360 micron. Non-Woven Backing",
+            "Easy for use and application",
+            "Applicable with glue",
+            "8-10 Years Lifespan",
+            "It looks beautiful in both light and dark patterns.",
+          ],
+        },
+        {
+          title: "#3 Premium Leather Texture Wallpaper (Glue needed)",
+          description: "Premium Quality with Shiny Leather Textured Wallpaper",
+          features: [
+            "Thickness 340 micro. Non-Woven Backing",
+            "Easy for use and application",
+            "Applicable with glue",
+            "8-10 Years Lifespan",
+            "Attractive on walls",
+          ],
+        },
+      ];
 
   const faqItems = isEpoxy
     ? [
@@ -70,6 +122,7 @@ export default function ProductTabs({ product }) {
       <div className="flex overflow-x-auto border-b border-light-muted">
         {[
           { id: "description", label: "Description" },
+          { id: "materials", label: "Materials" },
           { id: "reviews", label: "Reviews" },
           { id: "installation", label: "Installation Guide" },
           { id: "faq", label: "FAQ" },
@@ -179,6 +232,96 @@ export default function ProductTabs({ product }) {
           </div>
         )}
 
+        {activeTab === "materials" && (
+          <div className="space-y-6">
+            {materialInfo.map((material, index) => (
+              <div
+                key={index}
+                className="p-5 bg-light rounded-2xl border border-light-muted"
+              >
+                <h3 className="text-lg font-heading font-bold text-dark mb-3">
+                  {material.title}
+                </h3>
+                <p className="text-dark-muted text-sm mb-4">
+                  {material.description}
+                </p>
+                <ul className="space-y-2">
+                  {material.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" />
+                      <span className="text-dark text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            {/* Important Notes */}
+            <div className="mt-6 p-5 bg-primary/5 rounded-2xl border border-primary/20">
+              <h3 className="text-lg font-heading font-bold text-primary mb-3">
+                Important Notes
+              </h3>
+              <ul className="space-y-2">
+                {!isEpoxy && (
+                  <>
+                    <li className="flex items-start gap-2">
+                      <span className="text-primary font-bold">•</span>
+                      <span className="text-dark-muted text-sm">
+                        You will get the wallpaper in numbered rolls that match,
+                        starts from left side by numbers.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-primary font-bold">•</span>
+                      <span className="text-dark-muted text-sm">
+                        Wallpaper is applied by overlapping 2-2.5 cm (0.8-1
+                        inch) overlapping the patterns next to each other (Left
+                        to Right)
+                      </span>
+                    </li>
+                  </>
+                )}
+                <li className="flex items-start gap-2">
+                  <span className="text-primary font-bold">•</span>
+                  <span className="text-dark-muted text-sm">
+                    Colours on the prints may be slightly different from what
+                    you see on your screen - that's because every display has
+                    its own individual settings.
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary font-bold">•</span>
+                  <span className="text-dark-muted text-sm">
+                    We use only original HP inks with Green guard certification
+                    so you can be 100% sure that we care about your health and
+                    also feel responsible for our environment.
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Returns & Cancellations */}
+            <div className="mt-4 p-5 bg-red-50 rounded-2xl border border-red-200">
+              <h3 className="text-lg font-heading font-bold text-red-700 mb-3">
+                Returns, Exchanges and Cancellations
+              </h3>
+              <ul className="space-y-2 text-dark-muted text-sm">
+                <li>
+                  • Unless your item is defective returns are not accepted,
+                  every order is made on order, so it's impossible to exchange
+                  it.
+                </li>
+                <li>
+                  • As the wallpapers are made to order, we do not offer
+                  refunds/returns (of course, if the item you receive is
+                  damaged, we will replace it with a new one).
+                </li>
+                <li>• Exchanges are not accepted.</li>
+              </ul>
+            </div>
+          </div>
+        )}
+
         {activeTab === "reviews" && <ReviewsTab />}
 
         {activeTab === "installation" && (
@@ -192,8 +335,8 @@ export default function ProductTabs({ product }) {
                 },
                 {
                   step: 2,
-                  title: "Free Site Visit",
-                  desc: "Our team visits your site for measurements",
+                  title: "Site Visit",
+                  desc: "Our team visits your site for measurements -Travelling cost applies",
                 },
                 {
                   step: 3,

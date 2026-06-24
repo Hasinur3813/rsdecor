@@ -1,163 +1,185 @@
-
 "use client";
 
 import { useState } from "react";
+import { ShoppingCart, Info } from "lucide-react";
 
 export default function CostCalculator({ product }) {
-  const [mode, setMode] = useState("room");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
-  const [walls, setWalls] = useState(4);
-  const [sqft, setSqft] = useState("");
+  const [unit, setUnit] = useState("ft"); // 'ft' or 'in'
+  const [numWalls, setNumWalls] = useState(1);
 
   const isEpoxy = product.category === "3D Epoxy Floor";
 
-  let totalArea = 0;
-  if (mode === "room") {
-    const w = parseFloat(width) || 0;
-    const h = parseFloat(height) || 0;
-    totalArea = isEpoxy ? w * h : w * h * walls;
-  } else {
-    totalArea = parseFloat(sqft) || 0;
-  }
-
-  const totalCost = totalArea * product.pricePerSqft;
-  const discount = !isEpoxy && walls === 4 ? 0.05 : 0;
-  const finalCost = totalCost * (1 - discount);
-
-  const reset = () => {
-    setWidth("");
-    setHeight("");
-    setWalls(4);
-    setSqft("");
+  // Calculate dimensions in feet
+  const getWidthFt = () => {
+    if (unit === "ft") return parseFloat(width) || 0;
+    return (parseFloat(width) || 0) / 12;
   };
 
+  const getHeightFt = () => {
+    if (unit === "ft") return parseFloat(height) || 0;
+    return (parseFloat(height) || 0) / 12;
+  };
+
+  // Calculate total area
+  const calculateArea = () => {
+    const w = getWidthFt();
+    const h = getHeightFt();
+    if (isEpoxy) {
+      return w * h;
+    }
+    return w * h * numWalls;
+  };
+
+  const area = calculateArea();
+  const totalPrice = area * product.pricePerSqft;
+  const minOrderSize = 100; // Minimum 100 sq ft order
+
   return (
-    <div className="bg-white rounded-2xl p-5 border border-light-muted">
-      <h3 className="text-lg font-heading font-bold text-dark mb-4">
-        Cost Calculator
+    <div className="bg-white rounded-2xl p-5 border border-light-muted shadow-sm">
+      <h3 className="text-lg font-heading font-bold text-dark mb-2">
+        Enter Dimensions
       </h3>
 
-      {/* Mode Toggle */}
-      <div className="flex gap-2 mb-5 bg-light-muted rounded-xl p-1">
+      {/* Info note */}
+      <div className="flex items-start gap-2 mb-5 p-3 bg-light rounded-xl">
+        <Info className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-dark-muted">
+          We accept minimum {minOrderSize} sq ft size order in any material
+        </p>
+      </div>
+
+      {/* Unit toggle */}
+      <div className="flex items-center gap-2 mb-4">
         <button
-          onClick={() => setMode("room")}
-          className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${
-            mode === "room"
-              ? "bg-white text-primary shadow-sm"
-              : "text-dark-muted hover:text-dark"
+          onClick={() => setUnit("ft")}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+            unit === "ft"
+              ? "bg-primary text-white"
+              : "bg-gray-100 text-dark-muted hover:bg-gray-200"
           }`}
         >
-          By Room Size
+          Feet (ft)
         </button>
         <button
-          onClick={() => setMode("sqft")}
-          className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${
-            mode === "sqft"
-              ? "bg-white text-primary shadow-sm"
-              : "text-dark-muted hover:text-dark"
+          onClick={() => setUnit("in")}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+            unit === "in"
+              ? "bg-primary text-white"
+              : "bg-gray-100 text-dark-muted hover:bg-gray-200"
           }`}
         >
-          By Sqft
+          Inches (in)
         </button>
       </div>
 
-      {/* Inputs */}
-      <div className="space-y-4 mb-5">
-        {mode === "room" ? (
-          <>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1">
-                  Width (ft)
-                </label>
-                <input
-                  type="number"
-                  value={width}
-                  onChange={(e) => setWidth(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                  placeholder="10"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1">
-                  Height (ft)
-                </label>
-                <input
-                  type="number"
-                  value={height}
-                  onChange={(e) => setHeight(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                  placeholder="8"
-                />
-              </div>
+      {/* Dimensions inputs */}
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div>
+          <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1 font-medium">
+            Width
+          </label>
+          <input
+            type="number"
+            value={width}
+            onChange={(e) => setWidth(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+            placeholder={`Width (${unit})`}
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1 font-medium">
+            {isEpoxy ? "Length" : "Height"}
+          </label>
+          <input
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+            placeholder={`${isEpoxy ? "Length" : "Height"} (${unit})`}
+          />
+        </div>
+      </div>
+
+      {/* Number of walls (only for non-epoxy) */}
+      {!isEpoxy && (
+        <div className="mb-4">
+          <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1 font-medium">
+            Number of Walls
+          </label>
+          <select
+            value={numWalls}
+            onChange={(e) => setNumWalls(parseInt(e.target.value))}
+            className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+          >
+            {[1, 2, 3, 4].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "Wall" : "Walls"}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* Price display */}
+      {area > 0 && (
+        <div className="bg-primary/5 rounded-xl p-4 mb-5">
+          <div className="grid grid-cols-2 gap-3 mb-2">
+            <div>
+              <p className="text-xs text-dark-muted uppercase tracking-wide">
+                Total Area
+              </p>
+              <p className="text-xl font-bold text-dark">
+                {area.toFixed(2)} sq ft
+              </p>
             </div>
-            {!isEpoxy && (
-              <div>
-                <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1">
-                  Number of Walls
-                </label>
-                <select
-                  value={walls}
-                  onChange={(e) => setWalls(parseInt(e.target.value))}
-                  className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                >
-                  {[1, 2, 3, 4].map((w) => (
-                    <option key={w} value={w}>
-                      {w} {w === 1 ? "Wall" : "Walls"}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-          </>
-        ) : (
-          <div>
-            <label className="block text-xs text-dark-muted uppercase tracking-wide mb-1">
-              Total Square Feet
-            </label>
-            <input
-              type="number"
-              value={sqft}
-              onChange={(e) => setSqft(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-light-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-              placeholder="200"
-            />
+            <div>
+              <p className="text-xs text-dark-muted uppercase tracking-wide">
+                Price per sq ft
+              </p>
+              <p className="text-xl font-bold text-primary">
+                ৳ {product.pricePerSqft}
+              </p>
+            </div>
           </div>
-        )}
-      </div>
-
-      {/* Output */}
-      <div className="bg-primary/5 rounded-2xl p-4 mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-dark-muted">Total Area</span>
-          <span className="font-bold text-dark">{totalArea.toFixed(0)} sqft</span>
+          <div className="border-t border-primary/20 pt-3">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-sm text-dark-muted">Total Cost</p>
+              <p className="text-2xl font-heading font-bold text-primary">
+                ৳ {totalPrice.toLocaleString("en-IN")}
+              </p>
+            </div>
+            {area < minOrderSize && (
+              <p className="text-xs text-red-500 font-medium">
+                Minimum order size is {minOrderSize} sq ft. Please increase your
+                dimensions.
+              </p>
+            )}
+          </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-dark-muted">Estimated Cost</span>
-          <span className="text-2xl font-heading font-bold text-primary">
-            ৳{finalCost.toLocaleString("en-IN")}
-          </span>
-        </div>
-        {discount > 0 && (
-          <p className="text-green-600 text-sm mt-2">🎉 5% discount applied!</p>
-        )}
-      </div>
+      )}
 
-      <div className="flex gap-2">
-        <button
-          onClick={reset}
-          className="flex-1 py-3 rounded-xl border border-light-muted text-dark-muted font-semibold hover:bg-light-muted transition-colors"
-        >
-          Reset
-        </button>
-        <a
-          href="/contact"
-          className="flex-1 py-3 rounded-xl bg-primary text-white font-semibold text-center hover:bg-primary-dark transition-colors"
-        >
-          Book Free Site Visit →
-        </a>
-      </div>
+      {/* Add to Cart button */}
+      <button
+        disabled={!width || !height || area < minOrderSize}
+        className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold text-lg hover:bg-primary-dark transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <ShoppingCart className="w-5 h-5" />
+        Add to Cart
+      </button>
+
+      {/* Reset button */}
+      <button
+        onClick={() => {
+          setWidth("");
+          setHeight("");
+          setNumWalls(1);
+        }}
+        className="w-full mt-3 py-2.5 rounded-xl text-dark-muted hover:text-primary font-medium transition-colors"
+      >
+        Reset Dimensions
+      </button>
     </div>
   );
 }
