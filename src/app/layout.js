@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import StoreProvider from "@/store/StoreProvider";
+import { Toaster } from "react-hot-toast";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -40,6 +41,30 @@ export default function RootLayout({ children }) {
           <Navbar />
           {children}
           <Footer />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: "#2C2C2C",
+                color: "#FAF7F2",
+                borderRadius: "12px",
+                fontSize: "14px",
+              },
+              success: {
+                style: {
+                  background: "#4A7C6F",
+                  color: "#FAF7F2",
+                },
+              },
+              error: {
+                style: {
+                  background: "#C8956C",
+                  color: "#FAF7F2",
+                },
+              },
+            }}
+          />
         </StoreProvider>
       </body>
     </html>

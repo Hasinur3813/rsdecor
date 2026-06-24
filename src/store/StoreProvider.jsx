@@ -5,11 +5,15 @@ import { Provider } from "react-redux";
 import { makeStore } from ".";
 import { hydrateWishlist } from "./slices/wishlistSlice";
 import { hydrateCart } from "./slices/cartSlice";
+import { initAuth } from "./slices/authSlice";
 
 export default function StoreProvider({ children }) {
   const [store] = useState(makeStore);
 
   useEffect(() => {
+    // Initialize auth first
+    store.dispatch(initAuth());
+
     // Hydrate wishlist from localStorage
     try {
       const savedWishlist = localStorage.getItem("rs_wishlist");

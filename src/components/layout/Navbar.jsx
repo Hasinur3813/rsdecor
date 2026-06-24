@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Layers,
   Search,
@@ -14,6 +15,9 @@ import {
   ChevronRight,
   Phone,
   Sparkles,
+  User,
+  Settings,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -23,7 +27,9 @@ import {
   SOCIAL_LINKS,
 } from "@/lib/constants";
 import { MOCK_PRODUCTS } from "@/lib/productsData";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { initAuth, logout } from "@/store/slices/authSlice";
+import toast from "react-hot-toast";
 import Portal from "./Portal";
 
 /* ─────────────────────────────────────────
@@ -342,17 +348,55 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
   const searchButtonRef = useRef(null);
   const searchPopupRef = useRef(null);
+  const dropdownRef = useRef(null);
   const megaMenuTimeout = useRef(null);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const wishlistCount = useSelector((state) => state.wishlist.items.length);
   const cartCount = useSelector((state) => state.cart.items.length);
 
   useEffect(() => {
+    // Initialize auth state on mount
+    dispatch(initAuth());
+
     // Safe one-time initialization to avoid hydration mismatches
     setTimeout(() => setMounted(true), 0);
+  }, [dispatch]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("Logged out");
+    setDropdownOpen(false);
+    router.push("/");
+  };
+
+  // Get user initials
+  const getUserInitials = () => {
+    if (!user?.name) return "?";
+    const names = user.name.split(" ");
+    return names
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   // ── Search: derived state ──
   const searchResults =
@@ -682,14 +726,87 @@ export default function Navbar() {
               )}
             </Link>
 
-            {/* CTA Button — desktop */}
-            <Link
-              href="/contact"
-              className="hidden md:flex items-center gap-1.5 ml-2 px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark active:scale-[0.97] transition-all duration-200 shadow-sm hover:shadow-md"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              Get Free Quote
-            </Link>
+            {/* Conditional desktop right section */}
+            {isAuthenticated ? (
+              // Authenticated user dropdown
+              <div className="relative ml-2" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-[#C8956C] text-white font-semibold text-sm hover:bg-[#B8845C] transition-colors"
+                >
+                  {getUserInitials()}
+                </button>
+
+                {/* Dropdown */}
+                {dropdownOpen && (
+                  <div className="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-lg p-2 min-w-[200px] z-50">
+                    <div className="px-4 py-3 border-b border-gray-100 mb-2">
+                      <p className="font-semibold text-[#2C2C2C]">
+                        {user?.name}
+                      </p>
+                      <p className="text-xs text-gray-500">{user?.email}</p>
+                    </div>
+                    <Link
+                      href="/profile"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <User className="w-4 h-4" />
+                      My Profile
+                    </Link>
+                    <Link
+                      href="/wishlist"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <Heart className="w-4 h-4" />
+                      Wishlist
+                    </Link>
+                    <Link
+                      href="/cart"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      My Cart
+                    </Link>
+                    <Link
+                      href="/profile/settings"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <Settings className="w-4 h-4" />
+                      Settings
+                    </Link>
+                    <div className="border-t border-gray-100 my-1" />
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50 transition-colors w-full"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Unauthenticated state
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="hidden md:flex items-center gap-1.5 px-4 py-2 border border-[#C8956C] text-[#C8956C] text-sm font-semibold rounded-lg hover:bg-[#C8956C]/10 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/contact"
+                  className="hidden md:flex items-center gap-1.5 px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark active:scale-[0.97] transition-all duration-200 shadow-sm hover:shadow-md"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  Get Free Quote
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </nav>
