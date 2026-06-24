@@ -25,6 +25,35 @@ import {
 import { MOCK_PRODUCTS } from "@/lib/productsData";
 import Portal from "./Portal";
 
+// Hook to get wishlist count and listen for changes
+const useWishlistCount = () => {
+  const [count, setCount] = useState(0);
+
+  const updateCount = useCallback(() => {
+    const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
+    setTimeout(() => setCount(wishlist.length), 0);
+  }, []);
+
+  useEffect(() => {
+    updateCount();
+
+    // Listen for storage events (for cross-tab updates)
+    const handleStorageChange = () => updateCount();
+    window.addEventListener("storage", handleStorageChange);
+
+    // Listen for custom event for same-tab updates
+    const handleWishlistChange = () => updateCount();
+    window.addEventListener("wishlistChanged", handleWishlistChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("wishlistChanged", handleWishlistChange);
+    };
+  }, [updateCount]);
+
+  return count;
+};
+
 /* ─────────────────────────────────────────
    Inline SVG icons for socials (Lucide doesn't
    ship brand icons, so we use compact SVGs)
@@ -180,7 +209,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
       {/* Drawer */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-full w-[300px] max-w-[85vw] bg-white z-50 flex flex-col",
+          "fixed top-0 left-0 h-full w-75 max-w-[85vw] bg-white z-50 flex flex-col",
           "transition-transform duration-300 ease-out shadow-xl",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
@@ -344,6 +373,7 @@ export default function Navbar() {
   const searchButtonRef = useRef(null);
   const searchPopupRef = useRef(null);
   const megaMenuTimeout = useRef(null);
+  const wishlistCount = useWishlistCount();
 
   // ── Search: derived state ──
   const searchResults =
@@ -647,11 +677,16 @@ export default function Navbar() {
 
             <Link
               href="/wishlist"
-              // onClick={() => router.push("/wishlist")}
-              className="hidden sm:flex p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"
+              className="flex p-2 rounded-lg relative text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
+              {/* Item badge */}
+              {wishlistCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-primary rounded-full ring-2 ring-white">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
 
             <button

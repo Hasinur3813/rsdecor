@@ -62,12 +62,14 @@ export default function WishlistClient() {
     setWishlistIds(updated);
     localStorage.setItem("rs_wishlist", JSON.stringify(updated));
     setSelectedIds((prev) => prev.filter((x) => x !== id));
+    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   const clearAll = () => {
     setWishlistIds([]);
     setSelectedIds([]);
     localStorage.removeItem("rs_wishlist");
+    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   const removeSelected = () => {
@@ -75,6 +77,7 @@ export default function WishlistClient() {
     setWishlistIds(updated);
     localStorage.setItem("rs_wishlist", JSON.stringify(updated));
     setSelectedIds([]);
+    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   // Update removeSelected function

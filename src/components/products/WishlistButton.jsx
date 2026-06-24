@@ -27,6 +27,7 @@ export default function WishlistButton({ product }) {
     localStorage.setItem("rs_wishlist", JSON.stringify(wishlist));
     setIsWishlisted(!isWishlisted);
     setTimeout(() => setShowToast(""), 2000);
+    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   return (

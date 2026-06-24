@@ -45,6 +45,7 @@ function ProductImage({ product, className }) {
     }
     localStorage.setItem("rs_wishlist", JSON.stringify(wishlist));
     setIsWishlisted(!isWishlisted);
+    window.dispatchEvent(new Event("wishlistChanged"));
   };
 
   return (
