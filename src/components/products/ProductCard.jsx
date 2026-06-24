@@ -3,8 +3,15 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, MapPin, ArrowUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Heart, MapPin, ShoppingCart, Eye, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/store/slices/wishlistSlice";
+import { addToCart } from "@/store/slices/cartSlice";
 import Badge from "@/components/ui/Badge";
 
 function StarRating({ rating, reviewCount }) {
@@ -21,31 +28,21 @@ function StarRating({ rating, reviewCount }) {
 }
 
 function ProductImage({ product, className }) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const [showToast, setShowToast] = useState("");
 
-  useEffect(() => {
-    const checkWishlist = () => {
-      const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
-      setTimeout(() => setIsWishlisted(wishlist.includes(product.id)), 0);
-    };
-    checkWishlist();
-  }, [product.id]);
+  const isWishlisted = wishlistItems.includes(product.id);
 
   const toggleWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
     if (isWishlisted) {
-      wishlist = wishlist.filter((id) => id !== product.id);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 1500);
+      dispatch(removeFromWishlist(product.id));
+      setShowToast("Removed from Wishlist");
     } else {
-      wishlist.push(product.id);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 1500);
+      dispatch(addToWishlist(product.id));
+      setShowToast("Added to Wishlist ❤️");
     }
-    localStorage.setItem("rs_wishlist", JSON.stringify(wishlist));
-    setIsWishlisted(!isWishlisted);
-    window.dispatchEvent(new Event("wishlistChanged"));
+    setTimeout(() => setShowToast(""), 1500);
   };
 
   return (
@@ -92,21 +89,55 @@ function ProductImage({ product, className }) {
 
       {showToast && (
         <div className="absolute top-14 right-3 z-20 bg-dark text-white text-xs px-3 py-1.5 rounded-xl shadow-lg animate-in fade-in slide-in-from-top-2">
-          {isWishlisted ? "Added to Wishlist ❤️" : "Removed from Wishlist"}
+          {showToast}
         </div>
       )}
 
-      <div className="absolute bottom-3 left-3">
+      {/* <div className="absolute bottom-3 left-3">
         <span className="px-2.5 py-1 rounded-full bg-secondary text-white text-[10px] font-semibold uppercase tracking-wide">
           {product.category}
         </span>
-      </div>
+      </div> */}
     </div>
   );
 }
 
 export default function ProductCard({ product, viewMode = "grid" }) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [showAddToast, setShowAddToast] = useState(false);
   const warrantyShort = product.warranty === "Lifetime" ? "Lifetime" : "10yr";
+
+  const handleAddToCart = () => {
+    // Add cart item with default dimensions
+    const cartItem = {
+      cartId: `${product.id}-${Date.now()}`,
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      category: product.category,
+      pricePerSqft: product.pricePerSqft,
+      warranty: product.warranty,
+      finish: product.finish,
+      roomType: product.roomType,
+      // gradientFrom: product.gradientFrom,
+      // gradientTo: product.gradientTo,
+      image: product.image,
+      width: 10,
+      height: 10,
+      unit: "ft",
+      numWalls: product.category === "3D Epoxy Floor" ? 1 : 2,
+      area: 100,
+      totalPrice: 100 * product.pricePerSqft,
+      addedAt: new Date().toISOString(),
+    };
+    dispatch(addToCart(cartItem));
+    setShowAddToast(true);
+    setTimeout(() => {
+      setShowAddToast(false);
+      router.push("/cart");
+    }, 1500);
+  };
 
   if (viewMode === "list") {
     return (
@@ -148,19 +179,24 @@ export default function ProductCard({ product, viewMode = "grid" }) {
               </p>
             </div>
 
-            <div className="flex sm:flex-col gap-2 shrink-0">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+            <div className="flex sm:flex-row gap-2 shrink-0 w-full sm:w-auto">
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
               >
-                Get Quote
-              </Link>
+                {showAddToast ? (
+                  <CheckCircle2 className="w-4 h-4" />
+                ) : (
+                  <ShoppingCart className="w-4 h-4" />
+                )}
+                {showAddToast ? "Added!" : "Add to Cart"}
+              </button>
               <Link
                 href={`/products/${product.slug}`}
                 className="inline-flex items-center justify-center p-2.5 rounded-xl bg-gray-100 text-dark-muted hover:text-primary hover:bg-primary/10 transition-colors"
                 aria-label="View product details"
               >
-                <ArrowUpRight className="w-4 h-4" />
+                <Eye className="w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -173,12 +209,11 @@ export default function ProductCard({ product, viewMode = "grid" }) {
     <div className="group bg-white rounded-2xl shadow-sm border border-light-muted/50 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300">
       <ProductImage product={product} className="aspect-4/3" />
 
-      <div className="p-4">
-        <h3 className="text-sm font-heading font-bold text-dark group-hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem]">
+      <div className="p-2">
+        <h3 className="text-sm font-heading font-bold text-dark group-hover:text-primary transition-colors whitespace-nowrap text-ellipsis overflow-hidden w-full">
           {product.name}
         </h3>
-
-        <p className="flex items-center gap-1 text-xs text-dark-muted mt-1">
+        <p className="flex items-center gap-1 text-xs text-dark-muted mt-2">
           <MapPin className="w-3 h-3" />
           {product.roomType}
         </p>
@@ -204,18 +239,22 @@ export default function ProductCard({ product, viewMode = "grid" }) {
         </div>
 
         <div className="flex gap-2 mt-4">
-          <Link
-            href="/contact"
-            className="flex-1 inline-flex items-center justify-center py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
+          <button
+            onClick={handleAddToCart}
+            className="flex-1 inline-flex items-center justify-center gap-1 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
           >
-            Get Quote
-          </Link>
+            {showAddToast ? (
+              <CheckCircle2 className="w-4 h-4" />
+            ) : (
+              <ShoppingCart className="w-4 h-4" />
+            )}
+          </button>
           <Link
             href={`/products/${product.slug}`}
             className="inline-flex items-center justify-center p-2.5 rounded-xl bg-gray-100 text-dark-muted hover:text-primary hover:bg-primary/10 transition-colors"
             aria-label="View product details"
           >
-            <ArrowUpRight className="w-4 h-4" />
+            <Eye className="w-4 h-4" />
           </Link>
         </div>
       </div>

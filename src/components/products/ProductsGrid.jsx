@@ -5,10 +5,7 @@ import { ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProductCard from "@/components/products/ProductCard";
 import { useProductFilters } from "@/components/products/useProductFilters";
-import {
-  getFilteredProducts,
-  PAGE_SIZE,
-} from "@/lib/productFilters";
+import { getFilteredProducts, PAGE_SIZE } from "@/lib/productFilters";
 
 function getPageNumbers(current, total) {
   if (total <= 5) {
@@ -16,7 +13,9 @@ function getPageNumbers(current, total) {
   }
 
   const pages = new Set([1, total, current, current - 1, current + 1]);
-  const sorted = [...pages].filter((p) => p >= 1 && p <= total).sort((a, b) => a - b);
+  const sorted = [...pages]
+    .filter((p) => p >= 1 && p <= total)
+    .sort((a, b) => a - b);
 
   const result = [];
   for (let i = 0; i < sorted.length; i += 1) {
@@ -32,10 +31,7 @@ export default function ProductsGrid() {
   const gridRef = useRef(null);
   const { filters, resetFilters, setPage } = useProductFilters();
 
-  const filtered = useMemo(
-    () => getFilteredProducts(filters),
-    [filters],
-  );
+  const filtered = useMemo(() => getFilteredProducts(filters), [filters]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(filters.page, totalPages);
@@ -76,7 +72,7 @@ export default function ProductsGrid() {
         className={cn(
           filters.view === "list"
             ? "flex flex-col gap-4"
-            : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6",
+            : "grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-2  lg:gap-6",
         )}
       >
         {paginated.map((product) => (
