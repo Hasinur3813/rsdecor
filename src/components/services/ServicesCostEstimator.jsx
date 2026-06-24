@@ -340,7 +340,7 @@ export default function ServicesCostEstimator() {
             Reset
           </button>
           <Link
-            href={`https://wa.me/+8801772132818?text=${encodeURIComponent(getWhatsAppMessage())}`}
+            href={`https://wa.me/+8801976600300?text=${encodeURIComponent(getWhatsAppMessage())}`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full py-4 rounded-xl bg-primary text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-all"

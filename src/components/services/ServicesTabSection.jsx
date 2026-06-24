@@ -1,89 +1,126 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 
 export default function ServicesTabSection() {
-  const [activeTab, setActiveTab] = useState('wallpaper');
+  const [activeTab, setActiveTab] = useState("wallpaper");
 
   const services = {
     wallpaper: {
-      id: 'wallpaper',
-      badge: 'Wallpapers',
-      title: '3D Wallpapers',
-      description: 'Our premium 3D wallpapers transform ordinary walls into stunning focal points. Made from high-quality, washable fabric, they are durable, fade-resistant, and easy to maintain. With thousands of designs to choose from, you can create the perfect look for any room in your home.',
+      id: "wallpaper",
+      badge: "Wallpapers",
+      title: "3D Wallpapers",
+      description:
+        "Our premium 3D wallpapers transform ordinary walls into stunning focal points. Made from high-quality, washable fabric, they are durable, fade-resistant, and easy to maintain. With thousands of designs to choose from, you can create the perfect look for any room in your home.",
       includes: [
-        'Professional site measurement',
-        'Surface preparation advice',
-        'Premium imported adhesive',
-        'Expert installation with attention to detail',
-        'Perfect edge finishing',
-        'Complete cleanup after installation',
-        '10-year warranty card',
+        "Professional site measurement",
+        "Surface preparation advice",
+        "Premium imported adhesive",
+        "Expert installation with attention to detail",
+        "Perfect edge finishing",
+        "Complete cleanup after installation",
+        "10-year warranty card",
       ],
-      idealFor: ['Living Room', 'Bedroom', 'Kids Room', 'Dining Room', 'Office', 'Commercial Space'],
-      price: '140',
+      idealFor: [
+        "Living Room",
+        "Bedroom",
+        "Kids Room",
+        "Dining Room",
+        "Office",
+        "Commercial Space",
+      ],
+      price: "140",
       specs: [
-        { icon: 'Price', label: 'Price per sqft', value: '৳140' },
-        { icon: 'Shield', label: 'Warranty', value: '10 Years' },
-        { icon: 'Globe', label: 'Material Origin', value: 'Imported' },
-        { icon: 'Clock', label: 'Installation Time', value: '3–4 Days' },
-        { icon: 'Paintbrush', label: 'Surface Requirement', value: 'Smooth & Dry' },
-        { icon: 'Calendar', label: 'Lifespan', value: '20–25 Years' },
-        { icon: 'Droplets', label: 'Maintenance', value: 'Washable' },
+        { icon: "Price", label: "Price per sqft", value: "৳140" },
+        { icon: "Shield", label: "Warranty", value: "10 Years" },
+        { icon: "Globe", label: "Material Origin", value: "Imported" },
+        { icon: "Clock", label: "Installation Time", value: "3–4 Days" },
+        {
+          icon: "Paintbrush",
+          label: "Surface Requirement",
+          value: "Smooth & Dry",
+        },
+        { icon: "Calendar", label: "Lifespan", value: "20–25 Years" },
+        { icon: "Droplets", label: "Maintenance", value: "Washable" },
       ],
     },
     ceiling: {
-      id: 'ceiling',
-      badge: 'Ceiling Papers',
-      title: '3D Ceiling Papers',
-      description: 'Elevate your interiors with our stunning 3D ceiling papers. Designed specifically for ceiling applications, they add depth, elegance, and a touch of luxury to any room. Whether you want a subtle texture or a bold pattern, our ceiling papers deliver exceptional results.',
+      id: "ceiling",
+      badge: "Ceiling Papers",
+      title: "3D Ceiling Papers",
+      description:
+        "Elevate your interiors with our stunning 3D ceiling papers. Designed specifically for ceiling applications, they add depth, elegance, and a touch of luxury to any room. Whether you want a subtle texture or a bold pattern, our ceiling papers deliver exceptional results.",
       includes: [
-        'Professional site measurement',
-        'Surface preparation advice',
-        'Premium imported adhesive',
-        'Expert installation with precision',
-        'Perfect edge finishing',
-        'Complete cleanup after installation',
-        '10-year warranty card',
+        "Professional site measurement",
+        "Surface preparation advice",
+        "Premium imported adhesive",
+        "Expert installation with precision",
+        "Perfect edge finishing",
+        "Complete cleanup after installation",
+        "10-year warranty card",
       ],
-      idealFor: ['Bedroom', 'Living Room', 'Dining Room', 'Office', 'Hotel Lobby', 'Restaurant'],
-      price: '140',
+      idealFor: [
+        "Bedroom",
+        "Living Room",
+        "Dining Room",
+        "Office",
+        "Hotel Lobby",
+        "Restaurant",
+      ],
+      price: "140",
       specs: [
-        { icon: 'Price', label: 'Price per sqft', value: '৳140' },
-        { icon: 'Shield', label: 'Warranty', value: '10 Years' },
-        { icon: 'Globe', label: 'Material Origin', value: 'Imported' },
-        { icon: 'Clock', label: 'Installation Time', value: '3–4 Days' },
-        { icon: 'Paintbrush', label: 'Surface Requirement', value: 'Smooth & Dry' },
-        { icon: 'Calendar', label: 'Lifespan', value: '20–25 Years' },
-        { icon: 'Droplets', label: 'Maintenance', value: 'Washable' },
+        { icon: "Price", label: "Price per sqft", value: "৳140" },
+        { icon: "Shield", label: "Warranty", value: "10 Years" },
+        { icon: "Globe", label: "Material Origin", value: "Imported" },
+        { icon: "Clock", label: "Installation Time", value: "3–4 Days" },
+        {
+          icon: "Paintbrush",
+          label: "Surface Requirement",
+          value: "Smooth & Dry",
+        },
+        { icon: "Calendar", label: "Lifespan", value: "20–25 Years" },
+        { icon: "Droplets", label: "Maintenance", value: "Washable" },
       ],
     },
     epoxy: {
-      id: 'epoxy',
-      badge: 'Epoxy Floors',
-      title: '3D Epoxy Floors',
-      description: 'Our premium 3D epoxy floors create seamless, stunning surfaces that are incredibly durable and easy to maintain. Made from industrial-grade epoxy resin, they are twice as strong as traditional tiles and completely waterproof. Perfect for homes, offices, and commercial spaces.',
+      id: "epoxy",
+      badge: "Epoxy Floors",
+      title: "3D Epoxy Floors",
+      description:
+        "Our premium 3D epoxy floors create seamless, stunning surfaces that are incredibly durable and easy to maintain. Made from industrial-grade epoxy resin, they are twice as strong as traditional tiles and completely waterproof. Perfect for homes, offices, and commercial spaces.",
       includes: [
-        'Professional site inspection',
-        'Surface grinding & preparation',
-        'High-quality primer coat',
-        'Premium base epoxy coat',
-        'Custom 3D design layer',
-        'Protective top clear coat',
-        'Final polish & finishing',
-        'Lifetime guarantee certificate',
+        "Professional site inspection",
+        "Surface grinding & preparation",
+        "High-quality primer coat",
+        "Premium base epoxy coat",
+        "Custom 3D design layer",
+        "Protective top clear coat",
+        "Final polish & finishing",
+        "Lifetime guarantee certificate",
       ],
-      idealFor: ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom', 'Office', 'Showroom', 'Garage'],
-      price: '450',
+      idealFor: [
+        "Living Room",
+        "Bedroom",
+        "Kitchen",
+        "Bathroom",
+        "Office",
+        "Showroom",
+        "Garage",
+      ],
+      price: "450",
       specs: [
-        { icon: 'Price', label: 'Price per sqft', value: '৳450' },
-        { icon: 'Shield', label: 'Warranty', value: 'Lifetime' },
-        { icon: 'Globe', label: 'Material Origin', value: 'Premium Grade' },
-        { icon: 'Clock', label: 'Installation Time', value: '3–4 Days' },
-        { icon: 'Paintbrush', label: 'Surface Requirement', value: 'Concrete Base' },
-        { icon: 'Calendar', label: 'Lifespan', value: 'Lifetime' },
-        { icon: 'Droplets', label: 'Maintenance', value: 'Easy Clean' },
+        { icon: "Price", label: "Price per sqft", value: "৳450" },
+        { icon: "Shield", label: "Warranty", value: "Lifetime" },
+        { icon: "Globe", label: "Material Origin", value: "Premium Grade" },
+        { icon: "Clock", label: "Installation Time", value: "3–4 Days" },
+        {
+          icon: "Paintbrush",
+          label: "Surface Requirement",
+          value: "Concrete Base",
+        },
+        { icon: "Calendar", label: "Lifespan", value: "Lifetime" },
+        { icon: "Droplets", label: "Maintenance", value: "Easy Clean" },
       ],
     },
   };
@@ -91,10 +128,17 @@ export default function ServicesTabSection() {
   const currentService = services[activeTab];
 
   return (
-    <section id={activeTab} className="container mx-auto px-4 py-16 scroll-mt-20">
+    <section
+      id={activeTab}
+      className="container mx-auto px-4 py-16 scroll-mt-20"
+    >
       <div className="text-center mb-12">
-        <h2 className="font-playfair text-4xl font-bold text-dark mb-3">Explore Our Services</h2>
-        <p className="text-gray-500">Detailed information for each premium service</p>
+        <h2 className="font-playfair text-4xl font-bold text-dark mb-3">
+          Explore Our Services
+        </h2>
+        <p className="text-gray-500">
+          Detailed information for each premium service
+        </p>
       </div>
 
       {/* Tab Pills */}
@@ -105,8 +149,8 @@ export default function ServicesTabSection() {
             onClick={() => setActiveTab(service.id)}
             className={`px-6 py-3 rounded-full font-semibold transition-all ${
               activeTab === service.id
-                ? 'bg-primary text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? "bg-primary text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             {service.title}
@@ -130,7 +174,9 @@ export default function ServicesTabSection() {
 
           {/* What's Included */}
           <div className="mb-8">
-            <h4 className="font-bold text-dark text-lg mb-4">What's Included</h4>
+            <h4 className="font-bold text-dark text-lg mb-4">
+              What's Included
+            </h4>
             <ul className="space-y-3">
               {currentService.includes.map((item, i) => (
                 <li key={i} className="flex items-center gap-3">
@@ -175,19 +221,26 @@ export default function ServicesTabSection() {
               {currentService.specs.map((spec, i) => {
                 const SpecIcon = getSpecIcon(spec.icon);
                 return (
-                  <div key={i} className="flex items-center justify-between py-2 border-b border-gray-200 last:border-0">
+                  <div
+                    key={i}
+                    className="flex items-center justify-between py-2 border-b border-gray-200 last:border-0"
+                  >
                     <div className="flex items-center gap-3">
-                      {SpecIcon && <SpecIcon className="w-5 h-5 text-primary" />}
+                      {SpecIcon && (
+                        <SpecIcon className="w-5 h-5 text-primary" />
+                      )}
                       <span className="text-gray-600">{spec.label}</span>
                     </div>
-                    <span className="font-semibold text-dark">{spec.value}</span>
+                    <span className="font-semibold text-dark">
+                      {spec.value}
+                    </span>
                   </div>
                 );
               })}
             </div>
             <Link
-              href={`https://wa.me/+8801772132818?text=${encodeURIComponent(
-                `Hi! I'd like to get a quote for ${currentService.title} service.`
+              href={`https://wa.me/+8801976600300?text=${encodeURIComponent(
+                `Hi! I'd like to get a quote for ${currentService.title} service.`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -215,7 +268,7 @@ function getSpecIcon(name) {
   return icons[name] || null;
 }
 
-import { 
+import {
   PackageCheck,
   Tags as TagsIcon,
   Shield as ShieldIcon,
@@ -224,4 +277,4 @@ import {
   Paintbrush as PaintbrushIcon,
   Calendar as CalendarIcon,
   Droplets as DropletsIcon,
-} from 'lucide-react';
+} from "lucide-react";

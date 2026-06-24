@@ -128,7 +128,7 @@ export default function ProductInfo({ product }) {
       {/* CTA Buttons */}
       <div className="flex flex-col gap-3">
         <a
-          href={`https://wa.me/+8801772132818?text=${encodeURIComponent(`Hi! I want a quote for ${product.name}`)}`}
+          href={`https://wa.me/+8801976600300?text=${encodeURIComponent(`Hi! I want a quote for ${product.name}`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full py-3 sm:py-4 rounded-2xl bg-primary text-white font-semibold text-base sm:text-lg hover:bg-primary-dark transition-all shadow-md hover:shadow-lg text-center"
@@ -136,7 +136,7 @@ export default function ProductInfo({ product }) {
           Get Free Quote
         </a>
         <a
-          href="tel:+8801772132818"
+          href="tel:+8801976600300"
           className="w-full py-3 sm:py-4 rounded-2xl bg-secondary text-white font-semibold text-base sm:text-lg hover:bg-secondary-dark transition-all shadow-md hover:shadow-lg text-center"
         >
           Call Now

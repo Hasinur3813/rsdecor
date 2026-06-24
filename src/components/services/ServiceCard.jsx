@@ -73,7 +73,7 @@ export default function ServiceCard({ service, featured = false }) {
 
       {/* CTA Button */}
       <Link
-        href={`https://wa.me/+8801772132818?text=${encodeURIComponent(
+        href={`https://wa.me/+8801976600300?text=${encodeURIComponent(
           `Hi! I'd like to get a quote for ${service.title} service.`,
         )}`}
         target="_blank"

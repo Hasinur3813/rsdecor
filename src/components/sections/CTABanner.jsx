@@ -61,11 +61,7 @@ export default function CTABanner() {
               WhatsApp Us
             </Button>
 
-            <Button
-              variant="outline"
-              size="lg"
-              href="tel:+8801772132818"
-            >
+            <Button variant="outline" size="lg" href="tel:+8801976600300">
               <Phone className="w-4 h-4" />
               Call Now
             </Button>

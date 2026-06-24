@@ -44,7 +44,7 @@ Best For: ${product.roomType}
 
 Contact:
 Phone: 01772-132818
-WhatsApp: https://wa.me/+8801772132818
+WhatsApp: https://wa.me/+8801976600300
     `.trim();
 
     const blob = new Blob([content], { type: "text/plain" });
@@ -70,7 +70,7 @@ WhatsApp: https://wa.me/+8801772132818
       <a
         href={
           url
-            ? `https://wa.me/+8801772132818?text=${encodeURIComponent(url)}`
+            ? `https://wa.me/+8801976600300?text=${encodeURIComponent(url)}`
             : "#"
         }
         target="_blank"

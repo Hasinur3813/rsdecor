@@ -645,12 +645,14 @@ export default function Navbar() {
               )}
             </div>
 
-            <button
+            <Link
+              href="/wishlist"
+              // onClick={() => router.push("/wishlist")}
               className="hidden sm:flex p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
-            </button>
+            </Link>
 
             <button
               className="relative p-2 rounded-lg text-dark-muted hover:text-primary hover:bg-primary/5 transition-colors"

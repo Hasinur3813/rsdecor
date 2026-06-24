@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -16,7 +15,7 @@ export default function StickyAddToQuote({ product }) {
       ([entry]) => {
         setIsVisible(!entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     observer.observe(footer);
@@ -37,13 +36,13 @@ export default function StickyAddToQuote({ product }) {
         </div>
         <div className="flex gap-2">
           <a
-            href="tel:+8801772132818"
+            href="tel:+8801976600300"
             className="p-3 rounded-xl bg-secondary text-white"
           >
             <Phone className="w-5 h-5" />
           </a>
           <a
-            href={`https://wa.me/+8801772132818?text=${encodeURIComponent(`Hi! I want a quote for ${product.name}`)}`}
+            href={`https://wa.me/+8801976600300?text=${encodeURIComponent(`Hi! I want a quote for ${product.name}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-semibold"

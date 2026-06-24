@@ -33,7 +33,11 @@ const CARDS = [
     title: "Call Us",
     lines: ["01772-132818", "01976-600300", "01973-600700"],
     sub: "Available Sat–Thu, 9AM–8PM",
-    button: { label: "Call Now", href: "tel:+8801772132818", className: "bg-primary hover:bg-primary-dark text-white" },
+    button: {
+      label: "Call Now",
+      href: "tel:+8801976600300",
+      className: "bg-primary hover:bg-primary-dark text-white",
+    },
   },
   {
     icon: MessageCircle,
@@ -43,7 +47,7 @@ const CARDS = [
     sub: "Send a message anytime — we reply within 1 hour during business hours",
     button: {
       label: "Chat Now",
-      href: "https://wa.me/+8801772132818",
+      href: "https://wa.me/+8801976600300",
       className: "bg-[#25D366] hover:bg-[#1EBE57] text-white",
       external: true,
     },

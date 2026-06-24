@@ -51,6 +51,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Elegant floral 3D embossed wallpaper on premium waterproof fabric. Washable and tear-resistant.",
     createdAt: "2024-03-12",
+    gradientFrom: "#C8956C",
+    gradientTo: "#D4B896",
   },
   {
     id: 2,
@@ -74,6 +76,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Luxurious damask pattern with metallic gold accents. Imported waterproof fabric from China.",
     createdAt: "2024-02-08",
+    gradientFrom: "#C8956C",
+    gradientTo: "#D4B896",
   },
   {
     id: 3,
@@ -97,6 +101,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Vibrant tropical leaf design perfect for kids rooms and play areas. Easy to clean with soap and water.",
     createdAt: "2025-01-20",
+    gradientFrom: "#4A7C6F",
+    gradientTo: "#6A9A8A",
   },
   {
     id: 4,
@@ -120,6 +126,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Realistic marble vein texture with glossy finish. Adds sophistication to dining and living spaces.",
     createdAt: "2024-06-15",
+    gradientFrom: "#FAF7F2",
+    gradientTo: "#E0DDD8",
   },
   {
     id: 5,
@@ -143,6 +151,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Industrial brick stone 3D panel effect. Ideal for accent walls in offices and commercial spaces.",
     createdAt: "2024-04-22",
+    gradientFrom: "#2C2C2C",
+    gradientTo: "#4A4A4A",
   },
   {
     id: 6,
@@ -166,6 +176,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Serene forest landscape with depth illusion. Brings natural calm to any room in your home.",
     createdAt: "2025-02-10",
+    gradientFrom: "#4A7C6F",
+    gradientTo: "#6A9A8A",
   },
   {
     id: 7,
@@ -189,6 +201,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Soft cloud pattern ceiling paper with lightweight ceiling-safe adhesive. Creates a dreamy bedroom atmosphere.",
     createdAt: "2025-01-05",
+    gradientFrom: "#FAF7F2",
+    gradientTo: "#E0DDD8",
   },
   {
     id: 8,
@@ -212,6 +226,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Intricate golden mandala design for statement ceilings. Same premium fabric quality as our wallpapers.",
     createdAt: "2024-05-18",
+    gradientFrom: "#C8956C",
+    gradientTo: "#D4B896",
   },
   {
     id: 9,
@@ -235,6 +251,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Glowing starlight pattern loved by children. Washable, tear-resistant ceiling-safe fabric.",
     createdAt: "2025-02-01",
+    gradientFrom: "#2C2C2C",
+    gradientTo: "#4A4A4A",
   },
   {
     id: 10,
@@ -258,6 +276,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Ornate floral crown motif for elegant dining rooms. 10-year warranty on all ceiling papers.",
     createdAt: "2024-07-30",
+    gradientFrom: "#C8956C",
+    gradientTo: "#D4B896",
   },
   {
     id: 11,
@@ -281,6 +301,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Northern lights inspired ceiling design. Professional finish for modern office interiors.",
     createdAt: "2024-09-12",
+    gradientFrom: "#4A7C6F",
+    gradientTo: "#6A9A8A",
   },
   {
     id: 12,
@@ -304,6 +326,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Open sky blue ceiling design that makes rooms feel larger and brighter. China-imported fabric.",
     createdAt: "2024-01-25",
+    gradientFrom: "#4A7C6F",
+    gradientTo: "#6A9A8A",
   },
   {
     id: 13,
@@ -327,6 +351,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Stunning ocean wave epoxy finish. Twice as strong as tiles, seamless with no joints. Lifetime guarantee.",
     createdAt: "2024-02-14",
+    gradientFrom: "#4A7C6F",
+    gradientTo: "#6A9A8A",
   },
   {
     id: 14,
@@ -350,6 +376,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Premium white marble vein epoxy floor. High-gloss mirror finish with professional-grade resin.",
     createdAt: "2024-04-05",
+    gradientFrom: "#FAF7F2",
+    gradientTo: "#E0DDD8",
   },
   {
     id: 15,
@@ -373,6 +401,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Deep galaxy black with metallic shimmer particles. Impact resistant with lifetime guarantee.",
     createdAt: "2025-01-15",
+    gradientFrom: "#2C2C2C",
+    gradientTo: "#4A4A4A",
   },
   {
     id: 16,
@@ -396,6 +426,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Luxurious metallic gold epoxy with seamless finish. Perfect for premium dining and lounge areas.",
     createdAt: "2024-08-20",
+    gradientFrom: "#C8956C",
+    gradientTo: "#D4B896",
   },
   {
     id: 17,
@@ -419,6 +451,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Soft rose marble epoxy with natural vein patterns. Durable, easy to clean, lifetime guaranteed.",
     createdAt: "2025-02-18",
+    gradientFrom: "#C8956C",
+    gradientTo: "#D4B896",
   },
   {
     id: 18,
@@ -442,6 +476,8 @@ export const MOCK_PRODUCTS = [
     description:
       "Rich forest green epoxy with matte professional finish. Ideal for offices and commercial showrooms.",
     createdAt: "2024-10-08",
+    gradientFrom: "#4A7C6F",
+    gradientTo: "#6A9A8A",
   },
 ];
 

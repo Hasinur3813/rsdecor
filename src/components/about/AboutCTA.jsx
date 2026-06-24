@@ -4,7 +4,10 @@ import Button from "@/components/ui/Button";
 
 export default function AboutCTA() {
   return (
-    <section id="about-cta" className="scroll-mt-20 py-16 md:py-24 bg-[#1C1C1C]">
+    <section
+      id="about-cta"
+      className="scroll-mt-20 py-16 md:py-24 bg-[#1C1C1C]"
+    >
       <Container className="text-center">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white mb-4">
           Ready to Transform Your Home?
@@ -24,7 +27,7 @@ export default function AboutCTA() {
             <MessageCircle className="w-4 h-4" />
             WhatsApp Us
           </Button>
-          <Button variant="filled" size="lg" href="tel:+8801772132818">
+          <Button variant="filled" size="lg" href="tel:+8801976600300">
             <Phone className="w-4 h-4" />
             Call Now
           </Button>

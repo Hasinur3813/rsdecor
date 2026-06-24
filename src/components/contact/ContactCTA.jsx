@@ -18,14 +18,14 @@ export default function ContactCTA() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
           <a
-            href="tel:+8801772132818"
+            href="tel:+8801976600300"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary-dark transition-colors"
           >
             <Phone className="w-4 h-4" />
             Call 01772-132818
           </a>
           <a
-            href="https://wa.me/+8801772132818"
+            href="https://wa.me/+8801976600300"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 rounded-lg bg-[#25D366] text-white text-sm font-semibold hover:bg-[#1EBE57] transition-colors"

@@ -89,7 +89,7 @@ export default function TeamSection() {
               </p>
 
               <a
-                href="tel:+8801772132818"
+                href="tel:+8801976600300"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-dark transition-colors mb-4"
               >
                 <Phone className="w-4 h-4" />
