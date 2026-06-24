@@ -96,7 +96,7 @@ export default function ServiceProcess() {
             const Icon = step.icon;
             return (
               <div key={index} className="flex gap-4 items-start">
-                <div className="relative flex-shrink-0">
+                <div className="relative shrink-0">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                     <Icon className="w-6 h-6 text-primary" />
                   </div>

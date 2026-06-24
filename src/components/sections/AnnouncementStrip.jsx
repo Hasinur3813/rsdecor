@@ -31,7 +31,7 @@ export default function AnnouncementStrip() {
           {repeated.map((item, i) => (
             <span
               key={i}
-              className="text-xs md:text-sm font-medium tracking-wide flex-shrink-0 px-2"
+              className="text-xs md:text-sm font-medium tracking-wide shrink-0 px-2"
             >
               {item}
             </span>
@@ -40,14 +40,16 @@ export default function AnnouncementStrip() {
       </div>
 
       {/* Marquee keyframes */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
           @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-33.333%); }
           }
         `,
-      }} />
+        }}
+      />
     </section>
   );
 }

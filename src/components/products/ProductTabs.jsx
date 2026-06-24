@@ -248,7 +248,7 @@ export default function ProductTabs({ product }) {
                 <ul className="space-y-2">
                   {material.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" />
+                      <Check className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
                       <span className="text-dark text-sm">{feature}</span>
                     </li>
                   ))}
@@ -363,7 +363,7 @@ export default function ProductTabs({ product }) {
                   key={item.step}
                   className="flex gap-4 items-start p-5 rounded-2xl bg-light border border-light-muted"
                 >
-                  <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg shrink-0">
                     {item.step}
                   </div>
                   <div>

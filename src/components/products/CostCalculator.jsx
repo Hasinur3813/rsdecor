@@ -44,7 +44,7 @@ export default function CostCalculator({ product }) {
 
       {/* Info note */}
       <div className="flex items-start gap-2 mb-5 p-3 bg-light rounded-xl">
-        <Info className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+        <Info className="w-4 h-4 text-primary mt-0.5 shrink-0" />
         <p className="text-xs text-dark-muted">
           We accept minimum {minOrderSize} sq ft size order in any material
         </p>

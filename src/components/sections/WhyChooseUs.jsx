@@ -40,10 +40,26 @@ const FEATURES = [
    Process steps
    ───────────────────────────────────────── */
 const STEPS = [
-  { num: "01", title: "Contact", desc: "Reach out via WhatsApp or phone call." },
-  { num: "02", title: "Site Visit", desc: "Our expert visits your location — only travelling cost applies." },
-  { num: "03", title: "Design Selection", desc: "Choose from 6000+ premium designs." },
-  { num: "04", title: "Installation", desc: "Professional installation with warranty." },
+  {
+    num: "01",
+    title: "Contact",
+    desc: "Reach out via WhatsApp or phone call.",
+  },
+  {
+    num: "02",
+    title: "Site Visit",
+    desc: "Our expert visits your location — only travelling cost applies.",
+  },
+  {
+    num: "03",
+    title: "Design Selection",
+    desc: "Choose from 6000+ premium designs.",
+  },
+  {
+    num: "04",
+    title: "Installation",
+    desc: "Professional installation with warranty.",
+  },
 ];
 
 /* ─────────────────────────────────────────
@@ -69,7 +85,7 @@ export default function WhyChooseUs() {
               >
                 {/* Icon */}
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-xl ${feat.bg} flex items-center justify-center ${feat.color} group-hover:scale-110 transition-transform duration-300`}
+                  className={`shrink-0 w-12 h-12 rounded-xl ${feat.bg} flex items-center justify-center ${feat.color} group-hover:scale-110 transition-transform duration-300`}
                 >
                   <feat.icon className="w-5 h-5" />
                 </div>
@@ -97,9 +113,7 @@ export default function WhyChooseUs() {
                 <h3 className="text-lg font-heading font-bold text-dark">
                   Our Process
                 </h3>
-                <p className="text-xs text-dark-muted">
-                  Simple 4-step journey
-                </p>
+                <p className="text-xs text-dark-muted">Simple 4-step journey</p>
               </div>
             </div>
 
@@ -112,7 +126,7 @@ export default function WhyChooseUs() {
                   )}
 
                   {/* Step number */}
-                  <div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center shadow-md">
+                  <div className="relative z-10 shrink-0 w-10 h-10 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center shadow-md">
                     {step.num}
                   </div>
 

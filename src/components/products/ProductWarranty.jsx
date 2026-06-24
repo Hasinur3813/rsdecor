@@ -35,7 +35,7 @@ export default function ProductWarranty({ product }) {
             <ul className="space-y-2">
               {coverageItems.map((item, index) => (
                 <li key={index} className="flex items-center gap-2">
-                  <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-secondary flex-shrink-0" />
+                  <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-secondary shrink-0" />
                   <span className="text-dark text-sm sm:text-base">{item}</span>
                 </li>
               ))}
@@ -52,7 +52,7 @@ export default function ProductWarranty({ product }) {
             </div>
             <ol className="space-y-3 mb-4">
               <li className="flex gap-3">
-                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
+                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
                   1
                 </span>
                 <span className="text-dark text-sm sm:text-base">
@@ -60,7 +60,7 @@ export default function ProductWarranty({ product }) {
                 </span>
               </li>
               <li className="flex gap-3">
-                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
+                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
                   2
                 </span>
                 <span className="text-dark text-sm sm:text-base">
@@ -68,7 +68,7 @@ export default function ProductWarranty({ product }) {
                 </span>
               </li>
               <li className="flex gap-3">
-                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
+                <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
                   3
                 </span>
                 <span className="text-dark text-sm sm:text-base">

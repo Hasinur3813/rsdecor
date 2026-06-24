@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,8 +8,11 @@ export default function WishlistButton({ product }) {
   const [showToast, setShowToast] = useState("");
 
   useEffect(() => {
-    const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
-    setIsWishlisted(wishlist.includes(product.id));
+    const checkWishlist = () => {
+      const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
+      setTimeout(() => setIsWishlisted(wishlist.includes(product.id)), 0);
+    };
+    checkWishlist();
   }, [product.id]);
 
   const toggleWishlist = () => {

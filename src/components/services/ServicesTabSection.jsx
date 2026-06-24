@@ -180,7 +180,7 @@ export default function ServicesTabSection() {
             <ul className="space-y-3">
               {currentService.includes.map((item, i) => (
                 <li key={i} className="flex items-center gap-3">
-                  <PackageCheck className="w-5 h-5 text-secondary flex-shrink-0" />
+                  <PackageCheck className="w-5 h-5 text-secondary shrink-0" />
                   <span className="text-gray-600">{item}</span>
                 </li>
               ))}

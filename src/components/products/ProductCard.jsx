@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, MapPin, ArrowUpRight } from "lucide-react";
@@ -18,6 +21,32 @@ function StarRating({ rating, reviewCount }) {
 }
 
 function ProductImage({ product, className }) {
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    const checkWishlist = () => {
+      const wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
+      setTimeout(() => setIsWishlisted(wishlist.includes(product.id)), 0);
+    };
+    checkWishlist();
+  }, [product.id]);
+
+  const toggleWishlist = () => {
+    let wishlist = JSON.parse(localStorage.getItem("rs_wishlist") || "[]");
+    if (isWishlisted) {
+      wishlist = wishlist.filter((id) => id !== product.id);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 1500);
+    } else {
+      wishlist.push(product.id);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 1500);
+    }
+    localStorage.setItem("rs_wishlist", JSON.stringify(wishlist));
+    setIsWishlisted(!isWishlisted);
+  };
+
   return (
     <div className={cn("relative overflow-hidden bg-light-muted", className)}>
       <Image
@@ -43,11 +72,28 @@ function ProductImage({ product, className }) {
 
       <button
         type="button"
-        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 text-dark-muted hover:text-red-500 transition-colors"
-        aria-label="Add to wishlist"
+        onClick={toggleWishlist}
+        className={cn(
+          "absolute top-3 right-3 z-10 p-2 rounded-full shadow-sm transition-all duration-200",
+          isWishlisted
+            ? "bg-red-50 text-red-500"
+            : "bg-white/90 text-dark-muted hover:text-red-500",
+        )}
+        aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
       >
-        <Heart className="w-4 h-4" />
+        <Heart
+          className={cn(
+            "w-4 h-4 transition-transform",
+            isWishlisted && "fill-current scale-110",
+          )}
+        />
       </button>
+
+      {showToast && (
+        <div className="absolute top-14 right-3 z-20 bg-dark text-white text-xs px-3 py-1.5 rounded-xl shadow-lg animate-in fade-in slide-in-from-top-2">
+          {isWishlisted ? "Added to Wishlist ❤️" : "Removed from Wishlist"}
+        </div>
+      )}
 
       <div className="absolute bottom-3 left-3">
         <span className="px-2.5 py-1 rounded-full bg-secondary text-white text-[10px] font-semibold uppercase tracking-wide">
