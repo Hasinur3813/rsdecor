@@ -129,6 +129,12 @@ const authSlice = createSlice({
         localStorage.removeItem("rs_auth_user");
       }
     },
+    updateUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+      if (typeof window !== "undefined" && localStorage) {
+        localStorage.setItem("rs_auth_user", JSON.stringify(state.user));
+      }
+    },
     clearError: (state) => {
       state.error = null;
     },
@@ -205,6 +211,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { initAuth, logout, clearError, clearForgotPasswordSent } =
-  authSlice.actions;
+export const {
+  initAuth,
+  logout,
+  updateUser,
+  clearError,
+  clearForgotPasswordSent,
+} = authSlice.actions;
 export default authSlice.reducer;

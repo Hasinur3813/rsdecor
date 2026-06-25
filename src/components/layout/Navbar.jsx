@@ -18,6 +18,7 @@ import {
   User,
   Settings,
   LogOut,
+  LogIn,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -747,7 +748,7 @@ export default function Navbar() {
                       <p className="text-xs text-gray-500">{user?.email}</p>
                     </div>
                     <Link
-                      href="/profile"
+                      href="/dashboard"
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
@@ -755,23 +756,16 @@ export default function Navbar() {
                       My Profile
                     </Link>
                     <Link
-                      href="/wishlist"
+                      href="/dashboard/orders"
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       <Heart className="w-4 h-4" />
-                      Wishlist
+                      Orders
                     </Link>
+
                     <Link
-                      href="/cart"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                      My Cart
-                    </Link>
-                    <Link
-                      href="/profile/settings"
+                      href="/dashboard/profile/settings"
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
@@ -791,12 +785,12 @@ export default function Navbar() {
               </div>
             ) : (
               // Unauthenticated state
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3 ms-2">
                 <Link
                   href="/login"
-                  className="hidden md:flex items-center gap-1.5 px-4 py-2 border border-[#C8956C] text-[#C8956C] text-sm font-semibold rounded-lg hover:bg-[#C8956C]/10 transition-colors"
+                  className="flex items-center  border-[#C8956C] text-[#C8956C] text-sm font-semibold  hover:text-[#C8956C]/70 transition-colors"
                 >
-                  Sign In
+                  <User />
                 </Link>
                 <Link
                   href="/contact"

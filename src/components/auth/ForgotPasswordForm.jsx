@@ -86,7 +86,7 @@ export default function ForgotPasswordForm() {
         </div>
 
         <p className="text-sm text-gray-500">
-          Didn't receive it? Check your spam folder or try again.
+          Didn&apos;t receive it? Check your spam folder or try again.
         </p>
 
         <div className="space-y-3">

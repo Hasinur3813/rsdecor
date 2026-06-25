@@ -26,15 +26,16 @@ export default function LoginForm() {
     mode: "onBlur",
   });
 
-  const onSubmit = async (data) => {
-    await dispatch(loginUser(data));
+  const onSubmit = (data) => {
+    dispatch(loginUser(data));
   };
 
   useEffect(() => {
+    if (loading) return;
     if (isAuthenticated) {
       router.push("/");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, loading]);
 
   useEffect(() => {
     if (error && typeof error === "string") {

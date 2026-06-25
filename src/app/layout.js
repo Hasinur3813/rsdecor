@@ -1,7 +1,6 @@
 import { Playfair_Display, Inter } from "next/font/google";
 import "@/styles/globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 import StoreProvider from "@/store/StoreProvider";
 import { Toaster } from "react-hot-toast";
 
@@ -38,9 +37,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${playfairDisplay.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col bg-light text-dark font-body antialiased">
         <StoreProvider>
-          <Navbar />
-          {children}
-          <Footer />
+          <LayoutWrapper>{children}</LayoutWrapper>
           <Toaster
             position="top-right"
             toastOptions={{

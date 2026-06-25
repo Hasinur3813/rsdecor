@@ -2,7 +2,7 @@ import { Layers } from "lucide-react";
 
 export default function AuthLayout({ title, subtitle, children }) {
   return (
-    <div className="min-h-screen bg-[#FAF7F2] flex">
+    <div className="min-h-[calc(100vh-150px)] bg-[#FAF7F2] flex">
       {/* Left Panel - Hidden on mobile */}
       <div className="hidden lg:flex lg:w-1/2 bg-[#2C2C2C] flex-col justify-between p-12 text-white">
         {/* Top Section */}
@@ -17,7 +17,8 @@ export default function AuthLayout({ title, subtitle, children }) {
             “
           </div>
           <p className="text-xl text-gray-300 italic leading-relaxed">
-            Transform your home into a masterpiece with premium 3D wallpapers and epoxy floors that last a lifetime.
+            Transform your home into a masterpiece with premium 3D wallpapers
+            and epoxy floors that last a lifetime.
           </p>
           <p className="text-sm text-gray-400">
             — RS 3D Wallpaper & Floor, Est. 2017
@@ -42,12 +43,12 @@ export default function AuthLayout({ title, subtitle, children }) {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6">
         <div className="max-w-md w-full mx-auto">
           {/* Mobile-only Header Logo */}
-          <div className="lg:hidden flex items-center justify-center gap-2 mb-10">
+          {/* <div className="lg:hidden flex items-center justify-center gap-2 mb-10">
             <Layers className="w-6 h-6 text-[#C8956C]" />
             <span className="font-playfair text-xl font-bold text-[#2C2C2C]">
               RS Wallpaper
             </span>
-          </div>
+          </div> */}
 
           {/* Title and Subtitle */}
           <div className="mb-8">
