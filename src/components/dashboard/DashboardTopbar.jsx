@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { logout } from "@/store/slices/authSlice";
+import { logoutUser } from "@/store/slices/authSlice";
+import toast from "react-hot-toast";
 import { Bell, ChevronDown, User, Settings, LogOut } from "lucide-react";
 import DashboardBreadcrumb from "./DashboardBreadcrumb";
 
@@ -26,8 +27,9 @@ export default function DashboardTopbar({ user }) {
       .slice(0, 2);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    toast.success("Logged out successfully");
     router.push("/");
   };
 

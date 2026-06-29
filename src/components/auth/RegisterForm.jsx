@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, clearError } from "@/store/slices/authSlice";
+import { registerUser, clearError, clearRegisterSuccess } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import PasswordInput from "./PasswordInput";
@@ -13,7 +13,7 @@ import { Loader2, User, Mail, Phone, MapPin, UserPlus, CheckCircle2 } from "luci
 export default function RegisterForm() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, error, registerSuccess } = useSelector((state) => state.auth);
 
   const {
     register,
@@ -46,10 +46,12 @@ export default function RegisterForm() {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/");
+    if (registerSuccess) {
+      toast.success("Account created! Please sign in.");
+      dispatch(clearRegisterSuccess());
+      router.push("/login");
     }
-  }, [isAuthenticated, router]);
+  }, [registerSuccess, router, dispatch]);
 
   useEffect(() => {
     if (error && typeof error === "string") {

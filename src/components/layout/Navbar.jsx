@@ -29,7 +29,7 @@ import {
 } from "@/lib/constants";
 import { MOCK_PRODUCTS } from "@/lib/productsData";
 import { useSelector, useDispatch } from "react-redux";
-import { initAuth, logout } from "@/store/slices/authSlice";
+import { logoutUser } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
 import Portal from "./Portal";
 
@@ -362,12 +362,8 @@ export default function Navbar() {
   const cartCount = useSelector((state) => state.cart.items.length);
 
   useEffect(() => {
-    // Initialize auth state on mount
-    dispatch(initAuth());
-
-    // Safe one-time initialization to avoid hydration mismatches
     setTimeout(() => setMounted(true), 0);
-  }, [dispatch]);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -381,9 +377,9 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    toast.success("Logged out");
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    toast.success("Logged out successfully");
     setDropdownOpen(false);
     router.push("/");
   };

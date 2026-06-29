@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logout } from "@/store/slices/authSlice";
+import { logoutUser } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
 import {
   Layers,
@@ -67,9 +67,9 @@ export default function DashboardSidebar({ user }) {
       .slice(0, 2);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    toast.success("Logged out");
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    toast.success("Logged out successfully");
     router.push("/");
   };
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { initAuth } from "@/store/slices/authSlice";
+import { fetchSession } from "@/store/slices/authSlice";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardTopbar from "./DashboardTopbar";
 import DashboardMobileNav from "./DashboardMobileNav";
@@ -12,23 +12,21 @@ import { Loader2 } from "lucide-react";
 export default function DashboardShell({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isAuthenticated, user } = useSelector((s) => s.auth);
-  const [authChecked, setAuthChecked] = useState(false);
+  const { isAuthenticated, sessionChecked, user } = useSelector((s) => s.auth);
 
   useEffect(() => {
-    dispatch(initAuth());
-    setTimeout(() => {
-      setAuthChecked(true);
-    }, 0);
-  }, [dispatch]);
+    if (!sessionChecked) {
+      dispatch(fetchSession());
+    }
+  }, [dispatch, sessionChecked]);
 
   useEffect(() => {
-    if (authChecked && !isAuthenticated) {
+    if (sessionChecked && !isAuthenticated) {
       router.replace("/login?redirect=/dashboard");
     }
-  }, [authChecked, isAuthenticated, router]);
+  }, [sessionChecked, isAuthenticated, router]);
 
-  if (!authChecked || !isAuthenticated) {
+  if (!sessionChecked || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">

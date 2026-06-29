@@ -2,19 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
+import toast from "react-hot-toast";
 import { makeStore } from ".";
 import { hydrateWishlist } from "./slices/wishlistSlice";
 import { hydrateCart } from "./slices/cartSlice";
-import { initAuth } from "./slices/authSlice";
+import { fetchSession, clearSession } from "./slices/authSlice";
+import { setSessionExpiredHandler } from "@/lib/axiosInstance";
 
 export default function StoreProvider({ children }) {
   const [store] = useState(makeStore);
 
   useEffect(() => {
-    // Initialize auth first
-    store.dispatch(initAuth());
+    setSessionExpiredHandler(() => {
+      store.dispatch(clearSession());
+      toast.error("Your session has expired. Please sign in again.");
+    });
 
-    // Hydrate wishlist from localStorage
+    store.dispatch(fetchSession());
+
     try {
       const savedWishlist = localStorage.getItem("rs_wishlist");
       if (savedWishlist) {
@@ -24,7 +29,6 @@ export default function StoreProvider({ children }) {
       console.error("Failed to hydrate wishlist:", e);
     }
 
-    // Hydrate cart from localStorage
     try {
       const savedCart = localStorage.getItem("rs_cart");
       if (savedCart) {
