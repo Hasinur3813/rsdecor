@@ -527,8 +527,8 @@ export default function Navbar() {
         className={cn(
           "bg-white/95 backdrop-blur-md border-b transition-all duration-300",
           scrolled
-            ? "py-2 border-light-muted shadow-md"
-            : "py-3.5 border-transparent shadow-none",
+            ? "py-1.5 border-light-muted shadow-md"
+            : "py-3 border-transparent shadow-none",
         )}
       >
         <div className="container flex items-center justify-between gap-4">
@@ -542,13 +542,23 @@ export default function Navbar() {
               <Menu className="w-5 h-5 text-dark" />
             </button>
 
-            <Link href="/" className="flex items-center gap-2 shrink-0">
+            {/* <Link href="/" className="flex items-center gap-2 shrink-0">
               <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Layers className="w-5 h-5 text-primary" />
               </div>
               <span className="text-xl font-heading font-bold text-dark">
                 RS <span className="text-primary">Wallpaper</span>
               </span>
+            </Link> */}
+            <Link href="/" className="flex items-center gap-3 shrink-0">
+              <div className="relative w-12 h-12 overflow-hidden rounded-xl">
+                <Image
+                  src="/logo.png"
+                  alt="RS 3D Wallpaper logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </Link>
           </div>
 

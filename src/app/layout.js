@@ -30,6 +30,9 @@ export const metadata = {
     "Bangladesh",
     "interior design",
   ],
+  icons: {
+    icon: "/logo.ico",
+  },
 };
 
 export default function RootLayout({ children }) {

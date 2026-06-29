@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import Link from "next/link";
 
 /* ─────────────────────────────────────────
    Category data
@@ -49,11 +50,11 @@ const CATEGORIES = [
    Category Card
    ───────────────────────────────────────── */
 const CategoryCard = ({ name, count, image, alt }) => (
-  <a
+  <Link
     href="/products"
-    className="group relative flex flex-col bg-light rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+    className="group relative flex flex-col bg-light rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
   >
-    <div className="relative h-48 md:h-56 overflow-hidden">
+    <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden">
       <Image
         src={image}
         alt={alt}
@@ -79,7 +80,7 @@ const CategoryCard = ({ name, count, image, alt }) => (
         <ArrowUpRight className="w-4 h-4" />
       </span>
     </div>
-  </a>
+  </Link>
 );
 
 /* ─────────────────────────────────────────
@@ -95,7 +96,7 @@ export default function Categories() {
           description="Explore our curated categories to find the perfect design for every room in your home."
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {CATEGORIES.map((cat) => (
             <CategoryCard key={cat.name} {...cat} />
           ))}

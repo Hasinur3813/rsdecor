@@ -253,8 +253,9 @@ export const SITE_INFO = {
   phones: ["01772-132818", "01976-600300"],
   whatsapp: "01772-132818",
   email: "info@rswallfloor.com",
-  address: "Natore, Rajshahi, Bangladesh",
-  hours: "Sat–Thu, 9 AM – 8 PM",
+  address:
+    "Ka-57/4, Kuril Chowrasta, Progoti Sarni Road, Opposite of Jamuna Future Park, Dhaka, Bangladesh",
+  hours: "Sat–Thu, 10 AM – 8 PM",
   stats: [
     { label: "Years Experience", value: "7+" },
     { label: "Happy Clients", value: "4000+" },

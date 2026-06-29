@@ -67,7 +67,7 @@ const STEPS = [
    ───────────────────────────────────────── */
 export default function WhyChooseUs() {
   return (
-    <section id="why-choose-us" className="py-16 md:py-24 bg-light">
+    <section id="why-choose-us" className="pb-16 md:pb-24 bg-light">
       <Container>
         <SectionTitle
           subtitle="Why RS Wallpaper"
